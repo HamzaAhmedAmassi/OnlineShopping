@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "801371470494",
+    "project_id": "online-shoping-453f2",
+    "storage_bucket": "online-shoping-453f2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:801371470494:android:c69deac191ed58c820998f",
+        "android_client_info": {
+          "package_name": "com.h.alamassi.onlineshoping"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "801371470494-dg2oqi0u7vlqk1f3omm9qobdgb7rudu0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCM-yv_4kxmr1QeKPBKLyRZ4aSDmb-znaA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "801371470494-dg2oqi0u7vlqk1f3omm9qobdgb7rudu0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
