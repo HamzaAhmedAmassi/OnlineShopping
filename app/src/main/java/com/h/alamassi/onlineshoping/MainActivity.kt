@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "MainActivity"
+        const val NAME = "Hamza"
     }
     lateinit var mainBinding: ActivityMainBinding
     private lateinit var db: FirebaseFirestore
