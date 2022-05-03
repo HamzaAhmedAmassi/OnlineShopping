@@ -1,3 +1,23 @@
 <resources>
-    <string name="app_name">Online Shoping</string>
+    <string name="app_name">Online Shopping</string>
+    <string name="username">Username</string>
+    <string name="sing_in">Sign In</string>
+    <string name="no_account">You Have No Account ?</string>
+    <string name="create_one">Create One Now</string>
+    <string name="password">Password</string>
+    <string name="textview">TextView</string>
+    <string name="todo">TODO</string>
+    <string-array name="Gender">
+        <item>Mail</item>
+        <item>Female</item>
+    </string-array>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
 </resources>

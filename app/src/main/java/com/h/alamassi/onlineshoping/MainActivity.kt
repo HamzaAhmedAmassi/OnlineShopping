@@ -8,10 +8,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 
 class MainActivity : AppCompatActivity() {
+    lateinit var db :FirebaseFirestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val db = FirebaseFirestore.getInstance()
+         db = FirebaseFirestore.getInstance()
         // Create a new user with a first and last name
         // Create a new user with a first and last name
         val user: MutableMap<String, Any> = HashMap()
