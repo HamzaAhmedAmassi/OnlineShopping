@@ -1,47 +1,77 @@
 package com.h.alamassi.onlineshoping
 
-import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
+import com.h.alamassi.onlineshoping.databinding.ActivityMainBinding
+import com.h.alamassi.onlineshoping.datasourse.SharedPreferenceHelper
+import com.h.alamassi.onlineshoping.fragment.CategoriesFragment
+import com.h.alamassi.onlineshoping.fragment.FavouritesFragment
+import com.h.alamassi.onlineshoping.fragment.ProfileShowFragment
+import com.h.alamassi.onlineshoping.model.Category
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
-    lateinit var db :FirebaseFirestore
+    val data = ArrayList<Category>()
+    val displaylist =  ArrayList<Category>()
+
+    companion object {
+        private const val TAG = "MainActivity"
+    }
+    lateinit var mainBinding: ActivityMainBinding
+    private lateinit var db: FirebaseFirestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-         db = FirebaseFirestore.getInstance()
-        // Create a new user with a first and last name
-        // Create a new user with a first and last name
-        val user: MutableMap<String, Any> = HashMap()
-        user["first"] = "Ada"
-        user["last"] = "Lovelace"
-        user["born"] = 1815
+        mainBinding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(mainBinding.root)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, CategoriesFragment())
+            .commit()
 
-// Add a new document with a generated ID
+        mainBinding.bottomNavigation.setOnItemSelectedListener {
+            val fragment = when (it.itemId) {
+//                R.id.nav_home -> CategoriesFragment()
+//                R.id.nav_profile -> ProfileShowFragment()
+//                R.id.nav_favorite -> FavouritesFragment()
+                else -> CategoriesFragment()
+            }
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit()
+            false
+        }
+    }
 
-// Add a new document with a generated ID
-        db.collection("users")
-            .add(user)
-            .addOnSuccessListener { documentReference ->
-                Log.d(
-                    TAG,
-                    "DocumentSnapshot added with ID: " + documentReference.id
-                )
-            }
-            .addOnFailureListener { e -> Log.w(TAG, "Error adding document", e) }
-        db.collection("users")
-            .get()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    for (document in task.result) {
-                        Log.d(TAG, document.id + " => " + document.data)
-                    }
-                } else {
-                    Log.w(TAG, "Error getting documents.", task.exception)
-                }
-            }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.option_menu, menu)
+        //_______________________________________
+
+
+        //_______________________________________
+        return super.onCreateOptionsMenu(menu)
+
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+//            R.id.logOutItem -> onClickLogout()
+            //R.id.searchItem -> onClickLogout()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun onClickLogout() {
+
+        SharedPreferenceHelper.getInstance(this)?.setInt("currentUserId", -1)
+        SharedPreferenceHelper.getInstance(this)?.setBoolean("isLogin", false)
+        val i = Intent(this, LoginActivity::class.java)
+        startActivity(i)
+        finish()
     }
 }
