@@ -13,13 +13,13 @@
         android:id="@+id/textView14"
         android:layout_width="126dp"
         android:layout_height="52dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/mr_dafoe"
         android:text="Register"
         android:textColor="#009688"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.035"
+        app:layout_constraintHorizontal_bias="0.056"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,7 +28,7 @@
         android:layout_width="282dp"
         android:layout_height="25dp"
         android:layout_marginTop="16dp"
-        android:text="Come join us And organize your shop"
+        android:text="Come join us And organize our shop"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.054"
@@ -47,7 +47,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
     <EditText
-        android:id="@+id/txtUserName"
+        android:id="@+id/txtEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
@@ -55,7 +55,7 @@
         android:backgroundTint="#EFE9E9"
         android:drawableStart="@drawable/email"
         android:drawablePadding="8dp"
-        android:hint="@string/username"
+        android:hint="@string/email"
         android:importantForAutofill="no"
         android:inputType="textPersonName"
         android:paddingHorizontal="8dp"
@@ -69,10 +69,32 @@
         tools:ignore="TextContrastCheck" />
 
     <EditText
+        android:id="@+id/txtUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/shape"
+        android:backgroundTint="#EFE9E9"
+        android:drawableStart="@drawable/username"
+        android:drawablePadding="8dp"
+        android:hint="@string/username"
+        android:importantForAutofill="no"
+        android:inputType="textEmailAddress"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="16dp"
+        android:textColor="@color/black"
+        android:textColorHint="#757575"
+        app:layout_constraintEnd_toEndOf="@+id/txtPassword"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/txtPassword"
+        app:layout_constraintTop_toBottomOf="@+id/txtEmail"
+        tools:ignore="TextContrastCheck" />
+
+    <EditText
         android:id="@+id/txtPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/shape"
         android:backgroundTint="#EFE9E9"
         android:drawableStart="@drawable/password"
@@ -84,22 +106,22 @@
         android:paddingVertical="16dp"
         android:textColor="@color/black"
         android:textColorHint="#757575"
-        app:layout_constraintTop_toBottomOf="@+id/txtUserName"
+        app:layout_constraintTop_toBottomOf="@+id/txtUsername"
         tools:ignore="TextContrastCheck"
         tools:layout_editor_absoluteX="16dp" />
 
     <android.widget.Button
-        android:id="@+id/btnReg"
+        android:id="@+id/btnSignUp"
         android:layout_width="375dp"
         android:layout_height="47dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/shape"
         android:backgroundTint="@color/teal_700"
-        android:text="Register"
+        android:text="Sign Up"
         android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/tvLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtPassword"
         tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -125,5 +147,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView13"
         app:srcCompat="@drawable/ic_baseline_person_24" />
+
+    <TextView
+        android:id="@+id/tvLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="You have already One? Sign up"
+        android:textColor="#261BBF"
+        android:padding="8dp"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

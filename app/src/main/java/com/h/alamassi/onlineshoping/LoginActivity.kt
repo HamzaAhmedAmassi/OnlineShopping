@@ -1,60 +1,90 @@
 package com.h.alamassi.onlineshoping
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.h.alamassi.onlineshoping.databinding.ActivityLoginBinding
-import com.h.alamassi.onlineshoping.datasourse.SharedPreferenceHelper
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var loginBinding: ActivityLoginBinding
-//    private lateinit var databaseHelper: DatabaseHelper
+    private lateinit var firebaseFirestore: FirebaseFirestore
+    private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var progressDialog: ProgressDialog
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         loginBinding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(loginBinding.root)
-//        databaseHelper = DatabaseHelper(this)
+        firebaseFirestore = FirebaseFirestore.getInstance()
+        firebaseAuth = FirebaseAuth.getInstance()
 
-        //Check if isLogin true ==> Go to Home else do nothing
-        val isLogin = SharedPreferenceHelper.getInstance(this)?.getBoolean("isLogin", false);
-        if (isLogin == true) {
-            val i = Intent(this, MainActivity::class.java)
-            Toast.makeText(this, "Login Successfully", Toast.LENGTH_SHORT).show()
-            startActivity(i)
-            finish()
-        }
         loginBinding.btnLogin.setOnClickListener {
-//            onClickLogin()
+            login()
         }
 
-        loginBinding.tvCreateAccount.setOnClickListener {
-            onClickCreateAccount()
+        loginBinding.tvSignUp.setOnClickListener {
+            signUp()
+        }
+
+
+    }
+
+    private fun login() {
+        val email = loginBinding.edEmail.text.toString()
+        val password = loginBinding.edPassword.text.toString()
+        when {
+            email.isEmpty() -> {
+                Toast.makeText(this, "Email required", Toast.LENGTH_LONG).show()
+            }
+            password.isEmpty() -> {
+                Toast.makeText(this, "password required", Toast.LENGTH_LONG).show()
+
+            }
+            else -> {
+                showDialog()
+                firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        Toast.makeText(this, "Login Successfully", Toast.LENGTH_LONG).show()
+                        val i = Intent(this, MainActivity::class.java)
+                        startActivity(i)
+                        finish()
+                        hideDialog()
+
+                    } else {
+                        Toast.makeText(
+                            this,
+                            "Login Failed, something error,\n check email and password",
+                            Toast.LENGTH_LONG
+                        ).show()
+
+
+                    }
+                }
+
+            }
         }
     }
 
-//    private fun onClickLogin() {
-//        val username = loginBinding.edUserName.text.toString()
-//        val password = loginBinding.edPassword.text.toString()
-//        if (username.isNotEmpty() && password.isNotEmpty()) {
-//            // TODO: 12/14/2021 Check if user exist in DB
-//            val user = databaseHelper.authUser(username, password)
-//            if (user != null) {
-//                SharedPreferenceHelper.getInstance(this)?.setInt("currentUserId", user.id ?: -1)
-//                SharedPreferenceHelper.getInstance(this)?.setBoolean("isLogin", true)
-//                startActivity(Intent(this, MainActivity::class.java))
-//            } else {
-//                Toast.makeText(this, "Invalid data, try again", Toast.LENGTH_SHORT).show()
-//            }
-//        } else {
-//            Toast.makeText(this, "Must fill all information", Toast.LENGTH_SHORT).show()
-//        }
-//    }
-
-    private fun onClickCreateAccount() {
+    private fun signUp() {
         val toSignUpActivity = Intent(this, SignUpActivity::class.java)
         startActivity(toSignUpActivity)
+    }
+
+    private fun showDialog() {
+        progressDialog = ProgressDialog(this)
+        progressDialog.setMessage("Loading ....")
+        progressDialog.setCancelable(false)
+        progressDialog.show()
+    }
+
+    private fun hideDialog() {
+        if (progressDialog.isShowing)
+            progressDialog.dismiss()
     }
 
 }

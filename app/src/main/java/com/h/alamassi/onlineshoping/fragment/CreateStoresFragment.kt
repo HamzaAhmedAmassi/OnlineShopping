@@ -9,17 +9,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import com.h.alamassi.onlineshoping.R
-import com.h.alamassi.onlineshoping.SignUpActivity
-import com.h.alamassi.onlineshoping.databinding.FragmentCreateCategoryBinding
-import com.h.alamassi.onlineshoping.model.Category
+import com.h.alamassi.onlineshoping.databinding.FragmentCreateStoresBinding
 
 
-class CreateCategoryFragment : Fragment() {
+class CreateStoresFragment : Fragment() {
 
     companion object {
         private const val TAG = "CreateCategoryFragment"
@@ -28,7 +24,7 @@ class CreateCategoryFragment : Fragment() {
     }
 
 //    lateinit var databaseHelper: DatabaseHelper
-    lateinit var createCategoryBinding: FragmentCreateCategoryBinding
+    private lateinit var createCategoryBinding: FragmentCreateStoresBinding
     private var imagePath: String = ""
 
     override fun onCreateView(
@@ -36,7 +32,7 @@ class CreateCategoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        createCategoryBinding = FragmentCreateCategoryBinding.inflate(inflater, null, false)
+        createCategoryBinding = FragmentCreateStoresBinding.inflate(inflater, null, false)
         return createCategoryBinding.root
     }
 
@@ -80,6 +76,7 @@ class CreateCategoryFragment : Fragment() {
         )
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == IMAGE_REQUEST_CODE && resultCode == AppCompatActivity.RESULT_OK && data != null) {

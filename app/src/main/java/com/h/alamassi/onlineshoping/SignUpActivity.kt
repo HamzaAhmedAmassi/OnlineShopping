@@ -1,40 +1,54 @@
 package com.h.alamassi.onlineshoping
 
 import android.Manifest
+import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.h.alamassi.onlineshoping.databinding.ActivitySignUpBinding
-import com.h.alamassi.onlineshoping.fragment.CreateCategoryFragment
+import com.h.alamassi.onlineshoping.fragment.CreateStoresFragment
 
 class SignUpActivity : AppCompatActivity() {
+    private lateinit var signUpBinding: ActivitySignUpBinding
+    private lateinit var firebaseFirestore: FirebaseFirestore
+    private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var progressDialog: ProgressDialog
+
+
     companion object {
         private const val TAG = "SignUpActivity"
         const val IMAGE_REQUEST_CODE = 101
+        val data = HashMap<String, String>()
+
     }
 
-//    private lateinit var databaseHelper: DatabaseHelper
-    private lateinit var sinUpBinding: ActivitySignUpBinding
     private var imagePath: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sinUpBinding = ActivitySignUpBinding.inflate(layoutInflater)
-        setContentView(sinUpBinding.root)
-//        databaseHelper = DatabaseHelper(this)
+        signUpBinding = ActivitySignUpBinding.inflate(layoutInflater)
+        setContentView(signUpBinding.root)
+        firebaseFirestore = FirebaseFirestore.getInstance()
+        firebaseAuth = FirebaseAuth.getInstance()
 
-
-        sinUpBinding.btnReg.setOnClickListener {
-//            onClickRegister()
+        signUpBinding.btnSignUp.setOnClickListener {
+            signUp()
         }
-        sinUpBinding.fabChooseImage.setOnClickListener {
+        signUpBinding.fabChooseImage.setOnClickListener {
             chooseImage()
         }
+        signUpBinding.tvLogin.setOnClickListener {
+            onBackPressed()
+        }
     }
+
 
     private fun chooseImage() {
         val galleryPermission = ActivityCompat.checkSelfPermission(
@@ -49,7 +63,7 @@ class SignUpActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                CreateCategoryFragment.IMAGE_REQUEST_CODE
+                CreateStoresFragment.IMAGE_REQUEST_CODE
             )
         }
     }
@@ -63,44 +77,63 @@ class SignUpActivity : AppCompatActivity() {
         )
     }
 
+    private fun signUp() {
+        val email = signUpBinding.txtEmail.text.toString()
+        val password = signUpBinding.txtPassword.text.toString()
+        val username = signUpBinding.txtUsername.text.toString()
+        val image = imagePath
+        when {
+            email.isEmpty() -> {
+                Toast.makeText(this, "email required, can’t be empty", Toast.LENGTH_LONG).show()
 
-//    private fun onClickRegister() {
-//        val username = sinUpBinding.txtUserName.text.toString()
-//        val password = sinUpBinding.txtPassword.text.toString()
-//        val image = imagePath
-//        if (username.isNotEmpty() && password.isNotEmpty()) {
-//            /*val user = databaseHelper.authUser(username, password)
-//        if (user == null) {*/
-//            //Create New User
-//            val newUser = Admin(username, password, image)
-//            val result = databaseHelper.createUser(newUser)
-//            if (result != -1L) {
-//                Toast.makeText(this, "User Created", Toast.LENGTH_SHORT).show()
-//                val bundle = Bundle()
-//                bundle.putString("user_image",image)
-//                bundle.putString("user_name",username)
-//                bundle.putString("user_password",password)
-//                //Move to MainActivity
-//                startActivity(Intent(this, MainActivity::class.java),bundle)
-//                //Change isLogin in SP to true
-//                SharedPreferenceHelper.getInstance(this)
-//                    ?.setInt("currentUserId", result.toInt())
-//                SharedPreferenceHelper.getInstance(this)?.setBoolean("isLogin", true)
-//            } else {
-//                Toast.makeText(
-//                    this,
-//                    "Something error, Please try again later",
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//            }
-//            /*} else {
-//            Toast.makeText(this, "Name is token", Toast.LENGTH_SHORT).show()
-//        }*/
-//        } else {
-//            Toast.makeText(this, "Must fill", Toast.LENGTH_SHORT).show()
-//        }
-//    }
+            }
+            username.isEmpty() -> {
+                Toast.makeText(this, "username required, can’t be empty", Toast.LENGTH_LONG).show()
 
+            }
+            password.length > 6 -> {
+                Toast.makeText(this, "password required 6 digits or more", Toast.LENGTH_LONG).show()
+
+            }
+            else -> {
+                showDialog()
+                firebaseAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener { it ->
+                        if (it.isSuccessful) {
+                            Toast.makeText(this, "Created Account Successfully", Toast.LENGTH_LONG)
+                                .show()
+                            val user = firebaseAuth.currentUser
+                            if (user != null) {
+                                val uid = user.uid
+
+                                data["uid"] = uid
+                                data["email"] = email
+                                data["username"] = username
+                                data["image"] = image
+                                firebaseFirestore.collection("user").add(data)
+                                    .addOnCompleteListener {
+                                        if (!it.isSuccessful) {
+                                            Toast.makeText(this, "Insert Failed", Toast.LENGTH_LONG)
+                                                .show()
+                                        }
+                                    }
+                                val i = Intent(this, MainActivity::class.java)
+                                startActivity(i)
+                                finish()
+                                hideDialog()
+
+                            } else {
+                                Toast.makeText(this, "Created Failed", Toast.LENGTH_LONG).show()
+                            }
+                        }
+
+                    }
+            }
+        }
+
+    }
+
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == IMAGE_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
@@ -109,11 +142,22 @@ class SignUpActivity : AppCompatActivity() {
                     data.data!!.path!!.split(":".toRegex()).toTypedArray() //split the path.
                 val filePath = split[1] //assign it to a string(your choice).
                 val bm = BitmapFactory.decodeFile(filePath)
-                sinUpBinding.ivUserPhoto.setImageBitmap(bm)
+                signUpBinding.ivUserPhoto.setImageBitmap(bm)
                 imagePath = filePath
                 Log.d(TAG, "onActivityResult: imagePath $imagePath")
             }
         }
     }
 
+    private fun showDialog() {
+        progressDialog = ProgressDialog(this)
+        progressDialog.setMessage("Loading ....")
+        progressDialog.setCancelable(false)
+        progressDialog.show()
+    }
+
+    private fun hideDialog() {
+        if (progressDialog.isShowing)
+            progressDialog.dismiss()
+    }
 }
