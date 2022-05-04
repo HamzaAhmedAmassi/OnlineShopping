@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
@@ -41,16 +42,22 @@ class ProfileShowFragment : Fragment() {
             .get()
             .addOnCompleteListener {
                 if (it.isSuccessful) {
+                    hideDialog()
                     for (q in it.result) {
                         profileShowFragmentBinding.txtEmail.text = q.data["email"].toString()
                         profileShowFragmentBinding.txtPassword.text = q.data["password"].toString()
                         profileShowFragmentBinding.txtUsername.text = q.data["username"].toString()
 //                        profileShowFragmentBinding.ivUser.setImageBitmap(q.data["image"] as Bitmap?)
-                        hideDialog()
                     }
+                } else {
+                    hideDialog()
+                    Toast.makeText(context, "Something Error", Toast.LENGTH_LONG).show()
                 }
+
             }
+
     }
+
 
     private fun showDialog() {
         progressDialog = ProgressDialog(context)

@@ -91,7 +91,7 @@ class SignUpActivity : AppCompatActivity() {
                 Toast.makeText(this, "username required, can’t be empty", Toast.LENGTH_LONG).show()
 
             }
-            password.length > 6 -> {
+            password.isEmpty() -> {
                 Toast.makeText(this, "password required 6 digits or more", Toast.LENGTH_LONG).show()
 
             }
@@ -124,6 +124,8 @@ class SignUpActivity : AppCompatActivity() {
 
                             } else {
                                 Toast.makeText(this, "Created Failed", Toast.LENGTH_LONG).show()
+                                hideDialog()
+
                             }
                         }
 

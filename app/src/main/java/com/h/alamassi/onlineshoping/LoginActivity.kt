@@ -61,6 +61,8 @@ class LoginActivity : AppCompatActivity() {
                             "Login Failed, something error,\n check email and password",
                             Toast.LENGTH_LONG
                         ).show()
+                        hideDialog()
+
 
 
                     }
