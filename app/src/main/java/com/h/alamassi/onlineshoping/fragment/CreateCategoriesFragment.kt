@@ -9,13 +9,21 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import com.h.alamassi.onlineshoping.databinding.FragmentCreateStoresBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.h.alamassi.onlineshoping.R
+import com.h.alamassi.onlineshoping.databinding.FragmentCreateCategoriesBinding
 
 
-class CreateStoresFragment : Fragment() {
+class CreateCategoriesFragment : Fragment() {
+
+    private lateinit var createCategoryBinding: FragmentCreateCategoriesBinding
+    private lateinit var firebaseFirestore: FirebaseFirestore
+    private lateinit var firebaseAuth: FirebaseAuth
 
     companion object {
         private const val TAG = "CreateCategoryFragment"
@@ -23,8 +31,6 @@ class CreateStoresFragment : Fragment() {
         const val IMAGE_REQUEST_CODE = 102
     }
 
-//    lateinit var databaseHelper: DatabaseHelper
-    private lateinit var createCategoryBinding: FragmentCreateStoresBinding
     private var imagePath: String = ""
 
     override fun onCreateView(
@@ -32,17 +38,16 @@ class CreateStoresFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        createCategoryBinding = FragmentCreateStoresBinding.inflate(inflater, null, false)
+        firebaseFirestore = FirebaseFirestore.getInstance()
+        firebaseAuth = FirebaseAuth.getInstance()
+        createCategoryBinding = FragmentCreateCategoriesBinding.inflate(inflater, null, false)
         return createCategoryBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-//        databaseHelper = DatabaseHelper(requireContext())
-
         createCategoryBinding.btnSaveCategory.setOnClickListener {
-//            createCategory()
+            createCategory()
         }
         createCategoryBinding.fabChooseImage.setOnClickListener {
             chooseImage()
@@ -81,7 +86,8 @@ class CreateStoresFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == IMAGE_REQUEST_CODE && resultCode == AppCompatActivity.RESULT_OK && data != null) {
             if (data.data != null) {
-                val split: Array<String> = data.data!!.path!!.split(":".toRegex()).toTypedArray() //split the path.
+                val split: Array<String> =
+                    data.data!!.path!!.split(":".toRegex()).toTypedArray() //split the path.
                 val filePath = split[1] //assign it to a string(your choice).
                 val bm = BitmapFactory.decodeFile(filePath)
                 createCategoryBinding.ivCategoryImage.setImageBitmap(bm)
@@ -92,30 +98,31 @@ class CreateStoresFragment : Fragment() {
         }
     }
 
-//    private fun createCategory() {
-//        val name = createCategoryBinding.etCategoryName.text.toString()
-//
-//        if (name.isEmpty()) {
-//            Toast.makeText(requireContext(), "Invalid data", Toast.LENGTH_SHORT).show()
-//        } else {
-//            val result = databaseHelper.createCategory(Category(name, imagePath))
-//            if (result != -1L) {
-//                Toast.makeText(
-//                    requireContext(),
-//                    "Category Created Successfully",
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//                requireActivity().supportFragmentManager.beginTransaction()
-//                    .replace(R.id.fragment_container, CategoriesFragment()).commit()
-//            } else {
-//                Toast.makeText(
-//                    requireContext(),
-//                    "Something error, Please try again later",
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//            }
-//        }
-//    }
+    private fun createCategory() {
+        val name = createCategoryBinding.etCategoryName.text.toString()
+        val image = imagePath
 
-
+        if (name.isEmpty()) {
+            Toast.makeText(requireContext(), "Name required", Toast.LENGTH_SHORT).show()
+        } else {
+            val data = HashMap<String, String>()
+            data["name"] = name
+            data["image"] = image
+            firebaseFirestore.collection("categories").add(data)
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        Toast.makeText(context, "Created Successfully", Toast.LENGTH_LONG)
+                            .show()
+                        requireActivity().supportFragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container, CategoryFragment()).commit()
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Something error, Please try again later",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+        }
+    }
 }

@@ -52,7 +52,7 @@
                 tools:ignore="TextContrastCheck" />
 
             <TextView
-                android:id="@+id/tvCategory"
+                android:id="@+id/tvCategoryName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -82,8 +82,8 @@
                 android:layout_marginStart="50dp"
                 android:text="shelf"
                 app:layout_constraintBottom_toBottomOf="@+id/ibFavorite"
-                app:layout_constraintStart_toEndOf="@+id/tvCategory"
-                app:layout_constraintTop_toTopOf="@+id/tvCategory"
+                app:layout_constraintStart_toEndOf="@+id/tvCategoryName"
+                app:layout_constraintTop_toTopOf="@+id/tvCategoryName"
                 app:layout_constraintVertical_bias="0.526" />
 
             <ImageButton

@@ -11,13 +11,13 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.h.alamassi.onlineshoping.adapter.ProductAdapter
 import com.h.alamassi.onlineshoping.MainActivity
 import com.h.alamassi.onlineshoping.R
-import com.h.alamassi.onlineshoping.databinding.FragmentProductsBinding
+import com.h.alamassi.onlineshoping.databinding.FragmentProductBinding
 
 
-class ProductsFragment : Fragment() {
-//    private lateinit var productBinding: FragmentProductsBinding
-//    private lateinit var firebaseFirestore: FirebaseFirestore
-//    private lateinit var firebaseAuth: FirebaseAuth
+class ProductFragment : Fragment() {
+    private lateinit var productBinding: FragmentProductBinding
+    private lateinit var firebaseFirestore: FirebaseFirestore
+    private lateinit var firebaseAuth: FirebaseAuth
 //
 //    override fun onCreateView(
 //        inflater: LayoutInflater, container: ViewGroup?,

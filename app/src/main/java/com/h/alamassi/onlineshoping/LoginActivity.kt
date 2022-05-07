@@ -64,7 +64,6 @@ class LoginActivity : AppCompatActivity() {
                         hideDialog()
 
 
-
                     }
                 }
 

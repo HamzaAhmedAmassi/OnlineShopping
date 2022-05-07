@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.h.alamassi.onlineshoping.databinding.ActivityMainBinding
-import com.h.alamassi.onlineshoping.fragment.StoresFragment
+import com.h.alamassi.onlineshoping.fragment.CategoryFragment
 import com.h.alamassi.onlineshoping.fragment.ProfileShowFragment
 
 
@@ -23,16 +23,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(mainBinding.root)
         firebaseFirestore = FirebaseFirestore.getInstance()
         firebaseAuth = FirebaseAuth.getInstance()
+
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, StoresFragment())
+            .replace(R.id.fragment_container, CategoryFragment())
             .commit()
 
         mainBinding.bottomNavigation.setOnItemSelectedListener {
             val fragment = when (it.itemId) {
-                R.id.nav_home -> StoresFragment()
+                R.id.nav_home -> CategoryFragment()
                 R.id.nav_profile -> ProfileShowFragment()
 //                R.id.nav_favorite -> FavouritesFragment()
-                else -> StoresFragment()
+                else -> CategoryFragment()
             }
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, fragment)
@@ -58,7 +59,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onClickLogout() {
-        FirebaseAuth.getInstance().currentUser == null
+         FirebaseAuth.getInstance().signOut()
         val i = Intent(this, LoginActivity::class.java)
         startActivity(i)
         finish()

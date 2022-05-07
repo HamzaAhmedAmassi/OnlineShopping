@@ -1,6 +1,7 @@
 package com.h.alamassi.onlineshoping.fragment
 
 import android.app.ProgressDialog
+import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.h.alamassi.onlineshoping.databinding.FragmentProfileShowBinding
+import com.h.alamassi.onlineshoping.model.User
 
 class ProfileShowFragment : Fragment() {
 
@@ -41,13 +43,13 @@ class ProfileShowFragment : Fragment() {
             .whereEqualTo("uid", firebaseAuth.currentUser!!.uid)
             .get()
             .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    hideDialog()
+                if (it.isSuccessful && !it.result.isEmpty) {
                     for (q in it.result) {
                         profileShowFragmentBinding.txtEmail.text = q.data["email"].toString()
                         profileShowFragmentBinding.txtPassword.text = q.data["password"].toString()
                         profileShowFragmentBinding.txtUsername.text = q.data["username"].toString()
-//                        profileShowFragmentBinding.ivUser.setImageBitmap(q.data["image"] as Bitmap?)
+                        profileShowFragmentBinding.ivUser.setImageBitmap(q.data["image"] as Bitmap?)
+                        hideDialog()
                     }
                 } else {
                     hideDialog()

@@ -13,7 +13,7 @@ import androidx.core.app.ActivityCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.h.alamassi.onlineshoping.databinding.ActivitySignUpBinding
-import com.h.alamassi.onlineshoping.fragment.CreateStoresFragment
+import com.h.alamassi.onlineshoping.fragment.CreateCategoriesFragment
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var signUpBinding: ActivitySignUpBinding
@@ -25,7 +25,6 @@ class SignUpActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "SignUpActivity"
         const val IMAGE_REQUEST_CODE = 101
-        val data = HashMap<String, String>()
 
     }
 
@@ -63,7 +62,7 @@ class SignUpActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                CreateStoresFragment.IMAGE_REQUEST_CODE
+                CreateCategoriesFragment.IMAGE_REQUEST_CODE
             )
         }
     }
@@ -106,6 +105,7 @@ class SignUpActivity : AppCompatActivity() {
                             if (user != null) {
                                 val uid = user.uid
 
+                                val data = HashMap<String, String>()
                                 data["uid"] = uid
                                 data["email"] = email
                                 data["username"] = username
