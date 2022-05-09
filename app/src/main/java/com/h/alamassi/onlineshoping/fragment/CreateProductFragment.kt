@@ -1,7 +1,6 @@
 package com.h.alamassi.onlineshoping.fragment
 
 import android.Manifest
-import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
@@ -16,20 +15,20 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.h.alamassi.onlineshoping.R
 import com.h.alamassi.onlineshoping.databinding.FragmentCreateProductBinding
-import com.h.alamassi.onlineshoping.model.Product
 
 
 class CreateProductFragment : Fragment() {
     private lateinit var createProductBinding: FragmentCreateProductBinding
     private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var progressDialog: ProgressDialog
 
     companion object {
         private const val TAG = "CreateProductFragment"
         const val IMAGE_REQUEST_CODE = 103
     }
+
     private var imagePath: String = ""
 
     override fun onCreateView(
@@ -46,11 +45,11 @@ class CreateProductFragment : Fragment() {
         firebaseFirestore = FirebaseFirestore.getInstance()
         firebaseAuth = FirebaseAuth.getInstance()
 
-        createProductBinding.btnCreateProduct.setOnClickListener {
-//            createProduct()
+        createProductBinding.btnSave.setOnClickListener {
+            createProduct()
         }
         createProductBinding.fabChooseImage.setOnClickListener {
-            chooseImage()
+//            chooseImage()
         }
     }
 
@@ -81,43 +80,8 @@ class CreateProductFragment : Fragment() {
         )
     }
 
-//    private fun createProduct() {
-////     val name = createProductBinding.etCategoryName.text.toString()
-//        val image = imagePath
-//        val categoryId = firebaseFirestore.collection("categories").document().id
-//            Log.e("hma", "categoryIdCreate : $categoryId")
-//
-//        if (name.isEmpty()) {
-//            Toast.makeText(requireContext(), "Name required", Toast.LENGTH_SHORT).show()
-//        } else {
-//
-//            val data = HashMap<String, String>()
-//            data["name"] = name
-//            data["image"] = image
-//            data["catId"] = categoryId
-//            firebaseFirestore.collection("categories").add(data)
-//                .addOnCompleteListener {
-//                    if (it.isSuccessful) {
-//                        Toast.makeText(context, "Created Successfully", Toast.LENGTH_LONG)
-//                            .show()
-//                        requireActivity().supportFragmentManager.beginTransaction()
-//                            .replace(R.id.fragment_container, CategoryFragment()).commit()
-//                    } else {
-//                        Toast.makeText(
-//                            requireContext(),
-//                            "Something error, Please try again later",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                        requireActivity().supportFragmentManager.beginTransaction()
-//                            .replace(R.id.fragment_container, CategoryFragment()).commit()
-//                    }
-//                }
-//
-//
-//        }
-//    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == IMAGE_REQUEST_CODE && resultCode == AppCompatActivity.RESULT_OK && data != null) {
             if (data.data != null) {
@@ -133,4 +97,47 @@ class CreateProductFragment : Fragment() {
         }
     }
 
+    private fun createProduct() {
+        val name = createProductBinding.edName.text.toString()
+        val description = createProductBinding.edDescription.text.toString()
+        val image = imagePath
+        val price = createProductBinding.edPrice.text.toString()
+        val quantity = createProductBinding.edQuantity.text.toString()
+
+        if (name.isEmpty()) {
+            Toast.makeText(requireContext(), "Name required", Toast.LENGTH_SHORT).show()
+        } else if (price.isEmpty()) {
+
+            Toast.makeText(requireContext(), "Price required", Toast.LENGTH_SHORT).show()
+        } else if (description.isEmpty()) {
+            Toast.makeText(requireContext(), "Description required", Toast.LENGTH_SHORT).show()
+        } else {
+
+            val data = HashMap<String, String>()
+            data["productId"] = firebaseFirestore.collection("products").document().id
+            data["catId"] = firebaseFirestore.collection("categories").document().id
+            data["name"] = name
+            data["description"] = description
+            data["image"] = image
+            data["price"] = price
+            data["quantity"] = quantity
+            firebaseFirestore.collection("products").add(data)
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        Toast.makeText(context, "Created Successfully", Toast.LENGTH_LONG)
+                            .show()
+                        requireActivity().supportFragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container, ProductFragment()).commit()
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Something error, Please try again later",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        requireActivity().supportFragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container, ProductFragment()).commit()
+                    }
+                }
+        }
+    }
 }

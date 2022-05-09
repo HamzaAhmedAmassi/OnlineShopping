@@ -2,11 +2,9 @@ package com.h.alamassi.onlineshoping.fragment
 
 import android.app.ProgressDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.auth.FirebaseAuth
@@ -37,11 +35,11 @@ class CategoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         firebaseFirestore = FirebaseFirestore.getInstance()
         firebaseAuth = FirebaseAuth.getInstance()
+        showDialog()
         firebaseFirestore.collection("categories")
             .get()
             .addOnCompleteListener { it ->
                 if (it.isSuccessful && !it.result.isEmpty) {
-                showDialog()
                     val cats = it.result.map {
                         it.toObject(Category::class.java)
 
@@ -71,6 +69,7 @@ class CategoryFragment : Fragment() {
             }
 
     }
+
     private fun showDialog() {
         progressDialog = ProgressDialog(context)
         progressDialog.setMessage("Loading ....")

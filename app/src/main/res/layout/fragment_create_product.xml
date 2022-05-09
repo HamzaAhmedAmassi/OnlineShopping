@@ -16,87 +16,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/edShelf"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/edCopies"
-        app:layout_constraintTop_toBottomOf="@+id/edCopies"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <TextView
-        android:id="@+id/tvShelf"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Shelf"
-        app:layout_constraintStart_toStartOf="@+id/tvCopies"
-        app:layout_constraintTop_toTopOf="@+id/edShelf" />
-
-    <EditText
-        android:id="@+id/edCopies"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/edPages"
-        app:layout_constraintTop_toBottomOf="@+id/edPages"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <TextView
-        android:id="@+id/tvCopies"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Copies"
-        app:layout_constraintStart_toStartOf="@+id/tvPages"
-        app:layout_constraintTop_toTopOf="@+id/edCopies" />
-
-    <EditText
-        android:id="@+id/edPages"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/edLanguage"
-        app:layout_constraintTop_toBottomOf="@+id/edLanguage"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <TextView
-        android:id="@+id/tvPages"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pages"
-        app:layout_constraintStart_toStartOf="@+id/tvLanguage"
-        app:layout_constraintTop_toTopOf="@+id/edPages" />
-
-    <EditText
-        android:id="@+id/edLanguage"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        app:layout_constraintStart_toStartOf="@+id/edDescription"
-        app:layout_constraintTop_toBottomOf="@+id/edDescription"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <TextView
-        android:id="@+id/tvLanguage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Language"
-        app:layout_constraintStart_toStartOf="@+id/tvDescription"
-        app:layout_constraintTop_toTopOf="@+id/edLanguage" />
 
     <EditText
         android:id="@+id/edDescription"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:ems="10"
+        android:hint="Description"
         android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/edCategory"
-        app:layout_constraintTop_toBottomOf="@+id/edCategory"
+        android:minHeight="48dp"
+        app:layout_constraintStart_toStartOf="@+id/edPrice"
+        app:layout_constraintTop_toBottomOf="@+id/edPrice"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
@@ -104,96 +35,74 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Description"
-        app:layout_constraintStart_toStartOf="@+id/tvCategoryName"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/edDescription"
+        app:layout_constraintStart_toStartOf="@+id/tvPrice"
         app:layout_constraintTop_toTopOf="@+id/edDescription" />
-
-    <EditText
-        android:id="@+id/edYear"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        app:layout_constraintStart_toStartOf="@+id/edAuthor"
-        app:layout_constraintTop_toBottomOf="@+id/edAuthor"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <TextView
-        android:id="@+id/tvYear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Year of release"
-        app:layout_constraintStart_toStartOf="@+id/tvAuthor"
-        app:layout_constraintTop_toTopOf="@+id/edYear" />
 
     <EditText
         android:id="@+id/edName"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="170dp"
+        android:layout_marginTop="232dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
+        android:hint="Product Name"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <EditText
-        android:id="@+id/edCategory"
+        android:id="@+id/edPrice"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        app:layout_constraintStart_toStartOf="@+id/edYear"
-        app:layout_constraintTop_toBottomOf="@+id/edYear"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <TextView
-        android:id="@+id/tvCategoryName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Category"
-        app:layout_constraintStart_toStartOf="@+id/tvYear"
-        app:layout_constraintTop_toTopOf="@+id/edCategory" />
-
-    <EditText
-        android:id="@+id/edAuthor"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
+        android:hint="Product Price"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="@+id/edName"
         app:layout_constraintTop_toBottomOf="@+id/edName"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
-        android:id="@+id/tvAuthor"
+        android:id="@+id/tvPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Author name"
+        android:layout_marginTop="12dp"
+        android:text="Price"
+        android:textColor="@color/black"
+
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/edDescription"
         app:layout_constraintStart_toStartOf="@+id/tvName"
-        app:layout_constraintTop_toTopOf="@+id/edAuthor" />
+        app:layout_constraintTop_toTopOf="@+id/edPrice" />
 
     <TextView
         android:id="@+id/tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="Book name"
+        android:text="Name"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/edName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/edName" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnCreateProduct"
+    <Button
+        android:id="@+id/btnSave"
         android:layout_width="0dp"
+        android:backgroundTint="#A6A6A6"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="44dp"
         android:text="Create"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -207,5 +116,28 @@
         app:layout_constraintStart_toEndOf="@+id/ivBookImage"
         app:layout_constraintTop_toBottomOf="@+id/ivBookImage"
         tools:ignore="SpeakableTextPresentCheck" />
+
+    <TextView
+        android:id="@+id/tvQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quantity"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/edQuantity"
+        app:layout_constraintStart_toStartOf="@+id/tvDescription"
+        app:layout_constraintTop_toTopOf="@+id/edQuantity" />
+
+    <EditText
+        android:id="@+id/edQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Quantity"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/edDescription"
+        app:layout_constraintStart_toStartOf="@+id/edDescription"
+        app:layout_constraintTop_toBottomOf="@+id/edDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

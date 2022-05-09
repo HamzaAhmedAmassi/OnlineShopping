@@ -38,13 +38,13 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tvAuthor"
+                android:id="@+id/tvPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="8dp"
-                android:text="Author"
+                android:text="Price"
                 android:textColor="#757575"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/tvBookName"
@@ -62,8 +62,8 @@
                 android:textColor="#757575"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/ivImageBook"
-                app:layout_constraintStart_toStartOf="@+id/tvAuthor"
-                app:layout_constraintTop_toBottomOf="@+id/tvAuthor"
+                app:layout_constraintStart_toStartOf="@+id/tvPrice"
+                app:layout_constraintTop_toBottomOf="@+id/tvPrice"
                 tools:ignore="TextContrastCheck" />
 
             <ImageView
@@ -75,16 +75,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@drawable/online_shopping_image" />
 
-            <TextView
-                android:id="@+id/tvShelf"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:text="shelf"
-                app:layout_constraintBottom_toBottomOf="@+id/ibFavorite"
-                app:layout_constraintStart_toEndOf="@+id/tvCategoryName"
-                app:layout_constraintTop_toTopOf="@+id/tvCategoryName"
-                app:layout_constraintVertical_bias="0.526" />
 
             <ImageButton
                 android:id="@+id/ibFavorite"

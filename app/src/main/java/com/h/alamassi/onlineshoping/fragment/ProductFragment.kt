@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.h.alamassi.onlineshoping.MainActivity
@@ -38,8 +38,8 @@ class ProductFragment : Fragment() {
         firebaseFirestore.collection("products")
             .get()
             .addOnCompleteListener { it ->
+                showDialog()
                 if (it.isSuccessful && !it.result.isEmpty) {
-                    showDialog()
                     val products = it.result.map {
                         it.toObject(Product::class.java)
 
@@ -49,7 +49,7 @@ class ProductFragment : Fragment() {
                         products as ArrayList<Product>
                     )
                     productBinding.rvBook.layoutManager =
-                        GridLayoutManager(requireActivity(), 2)
+                        LinearLayoutManager(requireActivity())
                     productBinding.rvBook.adapter = productAdapter
                     hideDialog()
                     productBinding.root.setOnClickListener {
