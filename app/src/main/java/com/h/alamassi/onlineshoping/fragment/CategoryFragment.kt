@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.auth.FirebaseAuth
@@ -29,40 +30,37 @@ class CategoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         categoryBinding = FragmentCategoryBinding.inflate(inflater, container, false)
-        firebaseFirestore = FirebaseFirestore.getInstance()
-        firebaseAuth = FirebaseAuth.getInstance()
         return categoryBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        firebaseFirestore.collection("store")
+        firebaseFirestore = FirebaseFirestore.getInstance()
+        firebaseAuth = FirebaseAuth.getInstance()
+        firebaseFirestore.collection("categories")
             .get()
             .addOnCompleteListener { it ->
-                showDialog()
                 if (it.isSuccessful && !it.result.isEmpty) {
+                showDialog()
                     val cats = it.result.map {
                         it.toObject(Category::class.java)
 
                     }
-                    Log.e("hma", cats.toString() + "Step1")
                     val categoryAdapter = CategoryAdapter(
                         requireActivity() as MainActivity,
                         cats as ArrayList<Category>
                     )
-                    Log.e("hma", categoryAdapter.toString() + "Step2")
                     categoryBinding.rvCategory.layoutManager =
-                        GridLayoutManager(requireActivity(), 3)
+                        GridLayoutManager(requireActivity(), 2)
                     categoryBinding.rvCategory.adapter = categoryAdapter
-                    Log.e("hma", categoryBinding.rvCategory.toString() + "Step3")
+                    hideDialog()
                     categoryBinding.root.setOnClickListener {
                         requireActivity().supportFragmentManager.beginTransaction()
                             .replace(R.id.fragment_container, ProductFragment()).commit()
 
 
                     }
-                } else
-                    hideDialog()
+                }
 
 
 
@@ -73,7 +71,6 @@ class CategoryFragment : Fragment() {
             }
 
     }
-
     private fun showDialog() {
         progressDialog = ProgressDialog(context)
         progressDialog.setMessage("Loading ....")
@@ -85,4 +82,5 @@ class CategoryFragment : Fragment() {
         if (progressDialog.isShowing)
             progressDialog.dismiss()
     }
+
 }

@@ -15,11 +15,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.h.alamassi.onlineshoping.LoginActivity
 import com.h.alamassi.onlineshoping.R
-import com.h.alamassi.onlineshoping.databinding.FragmentProfileShowBinding
+import com.h.alamassi.onlineshoping.databinding.FragmentProfileEditBinding
 
-class ProfileShowFragment : Fragment() {
+class ProfileEditFragment : Fragment() {
 
-    private lateinit var profileShowBinding: FragmentProfileShowBinding
+    lateinit var profileEditBinding: FragmentProfileEditBinding
     private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var progressDialog: ProgressDialog
@@ -31,8 +31,8 @@ class ProfileShowFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         showDialog()
-        profileShowBinding = FragmentProfileShowBinding.inflate(inflater)
-        return profileShowBinding.root
+        profileEditBinding = FragmentProfileEditBinding.inflate(inflater)
+        return profileEditBinding.root
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -47,11 +47,11 @@ class ProfileShowFragment : Fragment() {
             .addOnCompleteListener {
                 if (it.isSuccessful && !it.result.isEmpty) {
                     for (q in it.result) {
-                        profileShowBinding.txtEmail.text = q.data["email"].toString()
-                        profileShowBinding.txtPassword.text = q.data["password"].toString()
-                        profileShowBinding.txtUsername.text = q.data["username"].toString()
+                        profileEditBinding.txtEmail.text = q.data["email"].toString()
+                        profileEditBinding.txtPassword.text = q.data["password"].toString()
+                        profileEditBinding.txtUsername.text = q.data["username"].toString()
                         hideDialog()
-//                        profileShowBinding.ivUser.setImageBitmap(q.data["image"] as Bitmap?)
+//                        profileShowFragmentBinding.ivUser.setImageBitmap(q.data["image"] as Bitmap?)
                     }
                 } else {
                     hideDialog()
@@ -59,15 +59,17 @@ class ProfileShowFragment : Fragment() {
                 }
 
             }
-        profileShowBinding.ibDelete.setOnClickListener {
+        profileEditBinding.ibDelete.setOnClickListener {
             delete()
-
-        }
-        profileShowBinding.ibEdit.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, ProfileEditFragment()).commit()
         }
 
+        profileEditBinding.btnUpdate.setOnClickListener {
+            update()
+        }
+
+    }
+
+    private fun update() {
     }
 
     private fun delete() {
@@ -111,7 +113,9 @@ class ProfileShowFragment : Fragment() {
         }
         alertDialog.create().show()
         true
+
     }
+
 
     private fun showDialog() {
         progressDialog = ProgressDialog(context)

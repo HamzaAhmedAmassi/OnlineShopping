@@ -127,6 +127,9 @@ class SignUpActivity : AppCompatActivity() {
                                 hideDialog()
 
                             }
+                        } else {
+                            Toast.makeText(this, "Created Failed", Toast.LENGTH_LONG).show()
+                            hideDialog()
                         }
 
                     }

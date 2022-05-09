@@ -27,7 +27,6 @@ class CreateCategoriesFragment : Fragment() {
 
     companion object {
         private const val TAG = "CreateCategoryFragment"
-
         const val IMAGE_REQUEST_CODE = 102
     }
 
@@ -38,19 +37,20 @@ class CreateCategoriesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        firebaseFirestore = FirebaseFirestore.getInstance()
-        firebaseAuth = FirebaseAuth.getInstance()
         createCategoryBinding = FragmentCreateCategoriesBinding.inflate(inflater, null, false)
         return createCategoryBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        firebaseFirestore = FirebaseFirestore.getInstance()
+        firebaseAuth = FirebaseAuth.getInstance()
+
         createCategoryBinding.btnSaveCategory.setOnClickListener {
             createCategory()
         }
         createCategoryBinding.fabChooseImage.setOnClickListener {
-            chooseImage()
+//            chooseImage()
         }
     }
 
@@ -101,13 +101,17 @@ class CreateCategoriesFragment : Fragment() {
     private fun createCategory() {
         val name = createCategoryBinding.etCategoryName.text.toString()
         val image = imagePath
+        val categoryId = firebaseFirestore.collection("categories").document().id
+            Log.e("hma", "categoryIdCreate : $categoryId")
 
         if (name.isEmpty()) {
             Toast.makeText(requireContext(), "Name required", Toast.LENGTH_SHORT).show()
         } else {
+
             val data = HashMap<String, String>()
             data["name"] = name
             data["image"] = image
+            data["catId"] = categoryId
             firebaseFirestore.collection("categories").add(data)
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
@@ -121,8 +125,12 @@ class CreateCategoriesFragment : Fragment() {
                             "Something error, Please try again later",
                             Toast.LENGTH_SHORT
                         ).show()
+                        requireActivity().supportFragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container, CategoryFragment()).commit()
                     }
                 }
+
+
         }
     }
 }

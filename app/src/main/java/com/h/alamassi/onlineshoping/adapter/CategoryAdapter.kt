@@ -2,7 +2,6 @@ package com.h.alamassi.onlineshoping.adapter
 
 import android.app.AlertDialog
 import android.app.ProgressDialog
-import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -35,34 +34,40 @@ class CategoryAdapter(private var activity: AppCompatActivity, var data: ArrayLi
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        Log.e("hma", holder.binding.ivCategory.toString() + "Adapter")
         holder.binding.root.setOnLongClickListener {
             val alertDialog = AlertDialog.Builder(activity)
-            alertDialog.setTitle("Delete Store")
-            alertDialog.setMessage("Are you sure to delete Store ?")
+            alertDialog.setTitle("Delete Category")
+            alertDialog.setMessage("Are you sure to delete category ?")
             alertDialog.setIcon(R.drawable.delete)
             alertDialog.setPositiveButton("Yes") { _, _ ->
-
-                firebaseFirestore.collection("store")
+                val catId = firebaseFirestore.collection("categories").document().id
+                Log.e("hma", "catIdAdapter : $catId")
+                firebaseFirestore.collection("categories")
                     .get()
                     .addOnCompleteListener {
                         showDialog()
-                        if (it.isSuccessful && !it.result.isEmpty) {
+                        if (it.isSuccessful) {
                             for (q in it.result) {
-                                val storeId = q.id
-                                holder.binding.ivCategory.setImageURI(q["image"] as Uri?)
-                                holder.binding.tvCategoryName.text = q["name"].toString()
-                                if (this.activity.deleteDatabase(storeId))
-                                    data.removeAt(position)
-                                hideDialog()
-                                Toast.makeText(activity, "Deleted Successfully", Toast.LENGTH_SHORT)
-                                    .show()
+                                val cat = q.data["catId"]
+//                                Log.e("hma", "cat for loop  $cat")
                             }
-                        } else {
+                            data.removeAt(position)
+                            firebaseFirestore.collection("categories").document(catId)
+                                .delete()
                             hideDialog()
-                            Toast.makeText(activity, "Something Error", Toast.LENGTH_LONG)
+                            Toast.makeText(
+                                activity,
+                                "Deleted Successfully",
+                                Toast.LENGTH_SHORT
+                            )
                                 .show()
+
+                        } else {
+                            Toast.makeText(activity, "Something Error ", Toast.LENGTH_LONG)
+                                .show()
+                            hideDialog()
                         }
+
 
                     }
 
@@ -70,14 +75,17 @@ class CategoryAdapter(private var activity: AppCompatActivity, var data: ArrayLi
             alertDialog.setNegativeButton("No") { _, _ ->
             }
             alertDialog.create().show()
+
             true
+
         }
+        val currentCategory = data[position]
         holder.binding.root.setOnClickListener {
             activity.supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, ProductFragment()).commit()
         }
-
-
+//        holder.binding.ivCategory.setImageURI(Uri.parse(currentCategory.image))
+        holder.binding.tvCategoryName.text = currentCategory.name
     }
 
     override fun getItemCount(): Int {
