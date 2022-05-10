@@ -59,6 +59,7 @@ class ProductDescriptionFragment : Fragment() {
         productDescriptionBinding.btnUpdate.setOnClickListener {
             val bundle = Bundle()
             bundle.putString("productId", productId)
+            bundle.putString("catId",catId)
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(
                     R.id.fragment_container,

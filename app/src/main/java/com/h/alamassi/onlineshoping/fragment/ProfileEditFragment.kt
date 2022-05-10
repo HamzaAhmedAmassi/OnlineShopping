@@ -66,8 +66,15 @@ class ProfileEditFragment : Fragment() {
         profileEditBinding.btnUpdate.setOnClickListener {
             update()
         }
+        profileEditBinding.fabChooseImage.setOnClickListener {
+            chooseImage()
+        }
+    }
+
+    private fun chooseImage() {
 
     }
+
 
     private fun update() {
     }

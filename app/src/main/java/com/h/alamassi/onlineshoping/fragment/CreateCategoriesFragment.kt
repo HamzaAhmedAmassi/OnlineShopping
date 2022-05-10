@@ -51,9 +51,11 @@ class CreateCategoriesFragment : Fragment() {
             createCategory()
         }
         createCategoryBinding.fabChooseImage.setOnClickListener {
-//            chooseImage()
+            chooseImage()
         }
     }
+
+    private fun chooseImage() {}
 
 
     private fun createCategory() {

@@ -23,10 +23,6 @@ class CreateProductFragment : Fragment() {
     private lateinit var createProductBinding: FragmentCreateProductBinding
     private lateinit var firebaseFirestore: FirebaseFirestore
 
-    companion object {
-        private const val TAG = "CreateProductFragment"
-        const val IMAGE_REQUEST_CODE = 103
-    }
 
     private var imagePath: String = ""
 
@@ -47,9 +43,12 @@ class CreateProductFragment : Fragment() {
             createProduct()
         }
         createProductBinding.fabChooseImage.setOnClickListener {
-//            chooseImage()
+            chooseImage()
         }
     }
+
+    private fun chooseImage() {}
+
 
     private fun createProduct() {
         val name = createProductBinding.edName.text.toString()

@@ -41,12 +41,14 @@ class SignUpActivity : AppCompatActivity() {
             signUp()
         }
         signUpBinding.fabChooseImage.setOnClickListener {
-//            chooseImage()
+            chooseImage()
         }
         signUpBinding.tvLogin.setOnClickListener {
             onBackPressed()
         }
     }
+
+    private fun chooseImage() {}
 
 
     private fun signUp() {

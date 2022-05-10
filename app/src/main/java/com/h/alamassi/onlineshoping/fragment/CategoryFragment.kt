@@ -1,12 +1,13 @@
 package com.h.alamassi.onlineshoping.fragment
 
+import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.h.alamassi.onlineshoping.MainActivity
@@ -27,11 +28,15 @@ class CategoryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         categoryBinding = FragmentCategoryBinding.inflate(inflater, container, false)
         return categoryBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        activity!!.actionBar!!.title = "Splash Screen"
+
+
         super.onViewCreated(view, savedInstanceState)
         firebaseFirestore = FirebaseFirestore.getInstance()
         firebaseAuth = FirebaseAuth.getInstance()
@@ -49,7 +54,7 @@ class CategoryFragment : Fragment() {
                         cats as ArrayList<Category>
                     )
                     categoryBinding.rvCategory.layoutManager =
-                        GridLayoutManager(requireActivity(), 2)
+                        LinearLayoutManager(requireActivity())
                     categoryBinding.rvCategory.adapter = categoryAdapter
                     hideDialog()
                     categoryBinding.root.setOnClickListener {

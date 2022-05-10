@@ -93,7 +93,6 @@ class ProductAdapter(
         }
         holder.binding.tvPrice.text = currentProduct.price
         holder.binding.tvProductName.text = currentProduct.name
-//        holder.binding.tvCategoryName.text = CreateCategoriesFragment.categoryName
 //      holder.binding.ivCategory.setImageURI(Uri.parse(currentCategory.image))
         hideDialog()
     }

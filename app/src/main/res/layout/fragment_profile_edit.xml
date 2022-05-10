@@ -97,33 +97,46 @@
         android:id="@+id/ivUser"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="36dp"
         android:src="@drawable/ic_baseline_person_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabChooseImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:src="@drawable/ic_baseline_image_24"
+        app:layout_constraintBottom_toBottomOf="@+id/ivUser"
+        app:layout_constraintEnd_toEndOf="@+id/ivUser"
+        app:layout_constraintStart_toEndOf="@+id/ivUser"
+        app:layout_constraintTop_toBottomOf="@+id/ivUser" />
+
     <ImageButton
         android:id="@+id/ibDelete"
-        android:layout_width="45dp"
+        android:layout_width="100dp"
         android:layout_height="47dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="128dp"
         android:src="@drawable/delete"
-        app:layout_constraintEnd_toEndOf="@+id/ivUser"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/ivUser"
-        app:layout_constraintTop_toBottomOf="@+id/ivUser"
+        app:layout_constraintBottom_toBottomOf="@+id/btnUpdate"
+        app:layout_constraintStart_toEndOf="@+id/btnUpdate"
+        app:layout_constraintTop_toTopOf="@+id/btnUpdate"
+        app:layout_constraintVertical_bias="1.0"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/btnUpdate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="#FF0E0E"
         android:text="Update"
-        app:layout_constraintEnd_toEndOf="@+id/ibDelete"
-        app:layout_constraintHorizontal_bias="0.833"
-        app:layout_constraintStart_toStartOf="@+id/ibDelete"
-        app:layout_constraintTop_toBottomOf="@+id/ibDelete" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edPassword"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
