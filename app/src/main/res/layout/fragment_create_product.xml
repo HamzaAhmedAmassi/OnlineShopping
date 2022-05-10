@@ -7,7 +7,7 @@
     tools:context=".fragment.CreateProductFragment">
 
     <ImageView
-        android:id="@+id/ivBookImage"
+        android:id="@+id/ivProductImage"
         android:layout_width="110dp"
         android:layout_height="108dp"
         android:layout_marginTop="16dp"
@@ -70,12 +70,11 @@
         android:id="@+id/tvPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         android:text="Price"
         android:textColor="@color/black"
 
         android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/edDescription"
+        app:layout_constraintBottom_toBottomOf="@+id/edPrice"
         app:layout_constraintStart_toStartOf="@+id/tvName"
         app:layout_constraintTop_toTopOf="@+id/edPrice" />
 
@@ -111,10 +110,10 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:src="@drawable/ic_baseline_image_24"
-        app:layout_constraintBottom_toBottomOf="@+id/ivBookImage"
-        app:layout_constraintEnd_toEndOf="@+id/ivBookImage"
-        app:layout_constraintStart_toEndOf="@+id/ivBookImage"
-        app:layout_constraintTop_toBottomOf="@+id/ivBookImage"
+        app:layout_constraintBottom_toBottomOf="@+id/ivProductImage"
+        app:layout_constraintEnd_toEndOf="@+id/ivProductImage"
+        app:layout_constraintStart_toEndOf="@+id/ivProductImage"
+        app:layout_constraintTop_toBottomOf="@+id/ivProductImage"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView

@@ -1,12 +1,10 @@
 package com.h.alamassi.onlineshoping.model
 
 data class Product(
-
-    var id: String = "",
-    var catId: String = "",
+    var productId: String = "",
     var name: String = "",
     var description: String = "",
-    var Image: String = "",
+    var image: String = "",
     var price: String = "",
     var quantity: String = "",
 

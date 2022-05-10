@@ -47,7 +47,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
     <EditText
-        android:id="@+id/txtEmail"
+        android:id="@+id/edEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="55dp"
@@ -62,14 +62,14 @@
         android:paddingVertical="16dp"
         android:textColor="@color/black"
         android:textColorHint="#757575"
-        app:layout_constraintEnd_toEndOf="@+id/txtPassword"
+        app:layout_constraintEnd_toEndOf="@+id/edPassword"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/txtPassword"
+        app:layout_constraintStart_toStartOf="@+id/edPassword"
         app:layout_constraintTop_toBottomOf="@+id/ivUserPhoto"
         tools:ignore="TextContrastCheck" />
 
     <EditText
-        android:id="@+id/txtUsername"
+        android:id="@+id/edUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -84,14 +84,14 @@
         android:paddingVertical="16dp"
         android:textColor="@color/black"
         android:textColorHint="#757575"
-        app:layout_constraintEnd_toEndOf="@+id/txtPassword"
+        app:layout_constraintEnd_toEndOf="@+id/edPassword"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/txtPassword"
-        app:layout_constraintTop_toBottomOf="@+id/txtEmail"
+        app:layout_constraintStart_toStartOf="@+id/edPassword"
+        app:layout_constraintTop_toBottomOf="@+id/edEmail"
         tools:ignore="TextContrastCheck" />
 
     <EditText
-        android:id="@+id/txtPassword"
+        android:id="@+id/edPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -106,7 +106,7 @@
         android:paddingVertical="16dp"
         android:textColor="@color/black"
         android:textColorHint="#757575"
-        app:layout_constraintTop_toBottomOf="@+id/txtUsername"
+        app:layout_constraintTop_toBottomOf="@+id/edUsername"
         tools:ignore="TextContrastCheck"
         tools:layout_editor_absoluteX="16dp" />
 
@@ -120,9 +120,9 @@
         android:text="Sign Up"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/tvLogin"
-        app:layout_constraintEnd_toEndOf="@+id/txtPassword"
-        app:layout_constraintStart_toStartOf="@+id/txtPassword"
-        app:layout_constraintTop_toBottomOf="@+id/txtPassword"
+        app:layout_constraintEnd_toEndOf="@+id/edPassword"
+        app:layout_constraintStart_toStartOf="@+id/edPassword"
+        app:layout_constraintTop_toBottomOf="@+id/edPassword"
         tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

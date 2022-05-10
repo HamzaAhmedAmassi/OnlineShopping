@@ -25,7 +25,7 @@
             android:padding="8dp">
 
             <TextView
-                android:id="@+id/tvBookName"
+                android:id="@+id/tvProductName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="12dp"
@@ -47,8 +47,8 @@
                 android:text="Price"
                 android:textColor="#757575"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@+id/tvBookName"
-                app:layout_constraintTop_toBottomOf="@+id/tvBookName"
+                app:layout_constraintStart_toStartOf="@+id/tvProductName"
+                app:layout_constraintTop_toBottomOf="@+id/tvProductName"
                 tools:ignore="TextContrastCheck" />
 
             <TextView
@@ -85,6 +85,7 @@
                 android:minHeight="48dp"
                 app:layout_constraintBottom_toBottomOf="@+id/ivImageBook"
                 app:layout_constraintEnd_toStartOf="@+id/ivImageBook"
+                app:layout_constraintTop_toTopOf="@+id/ivImageBook"
                 app:srcCompat="@drawable/ic_baseline_favorite_24"
                 tools:ignore="SpeakableTextPresentCheck" />
         </androidx.constraintlayout.widget.ConstraintLayout>

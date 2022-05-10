@@ -47,9 +47,9 @@ class ProfileEditFragment : Fragment() {
             .addOnCompleteListener {
                 if (it.isSuccessful && !it.result.isEmpty) {
                     for (q in it.result) {
-                        profileEditBinding.txtEmail.text = q.data["email"].toString()
-                        profileEditBinding.txtPassword.text = q.data["password"].toString()
-                        profileEditBinding.txtUsername.text = q.data["username"].toString()
+                        profileEditBinding.edEmail.setText(firebaseAuth.currentUser!!.email)
+                        profileEditBinding.edPassword.setText(q.data["password"].toString())
+                        profileEditBinding.edUsername.setText(q.data["username"].toString())
                         hideDialog()
 //                        profileShowFragmentBinding.ivUser.setImageBitmap(q.data["image"] as Bitmap?)
                     }
@@ -73,6 +73,8 @@ class ProfileEditFragment : Fragment() {
     }
 
     private fun delete() {
+        val userCollectionReference =
+            firebaseFirestore.collection("user")
         val alertDialog = AlertDialog.Builder(activity)
         alertDialog.setTitle("Delete User")
         alertDialog.setMessage("Are you sure to delete Store ?")
@@ -85,9 +87,9 @@ class ProfileEditFragment : Fragment() {
                     .get()
                     .addOnCompleteListener {
                         showDialog()
-                        if (it.isSuccessful && !it.result.isEmpty) {
-                            firebaseFirestore.collection("user").document(uid).delete()
-                            firebaseAuth.currentUser!!.delete()
+                        if (it.isSuccessful) {
+                            userCollectionReference.document(uid).delete()
+                            user.delete()
                             firebaseAuth.signOut()
                             hideDialog()
                             startActivity(Intent(activity, LoginActivity::class.java))

@@ -2,6 +2,7 @@ package com.h.alamassi.onlineshoping.fragment
 
 import android.app.ProgressDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +23,9 @@ class ProductFragment : Fragment() {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var progressDialog: ProgressDialog
 
-
+companion object{
+    var catId = ""
+}
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,14 +38,21 @@ class ProductFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         firebaseFirestore = FirebaseFirestore.getInstance()
         firebaseAuth = FirebaseAuth.getInstance()
-        firebaseFirestore.collection("products")
+
+         catId = arguments?.getString("catId") ?: ""
+        Log.e("TAG", "onViewCreated: catId = $catId")
+
+
+        firebaseFirestore
+            .collection("categories")
+            .document(catId)
+            .collection("products")
             .get()
             .addOnCompleteListener { it ->
-                showDialog()
                 if (it.isSuccessful && !it.result.isEmpty) {
+                    showDialog()
                     val products = it.result.map {
                         it.toObject(Product::class.java)
-
                     }
                     val productAdapter = ProductAdapter(
                         requireActivity() as MainActivity,
@@ -63,8 +73,12 @@ class ProductFragment : Fragment() {
 
 
                 productBinding.fabAddBook.setOnClickListener {
+                    val catId = arguments?.getString("catId") ?: ""
+                    val bundle = Bundle()
+                    bundle.putString("catId", catId)
                     requireActivity().supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, CreateProductFragment()).commit()
+                        .replace(R.id.fragment_container, CreateProductFragment::class.java, bundle)
+                        .commit()
                 }
             }
 

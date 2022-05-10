@@ -5,6 +5,7 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,9 +48,9 @@ class ProfileShowFragment : Fragment() {
             .addOnCompleteListener {
                 if (it.isSuccessful && !it.result.isEmpty) {
                     for (q in it.result) {
-                        profileShowBinding.txtEmail.text = q.data["email"].toString()
-                        profileShowBinding.txtPassword.text = q.data["password"].toString()
-                        profileShowBinding.txtUsername.text = q.data["username"].toString()
+                        profileShowBinding.edEmail.setText(firebaseAuth.currentUser!!.email)
+                        profileShowBinding.edPassword.setText(q.data["password"].toString())
+                        profileShowBinding.edUsername.setText(q.data["username"].toString())
                         hideDialog()
 //                        profileShowBinding.ivUser.setImageBitmap(q.data["image"] as Bitmap?)
                     }
@@ -71,6 +72,8 @@ class ProfileShowFragment : Fragment() {
     }
 
     private fun delete() {
+        val userCollectionReference =
+            firebaseFirestore.collection("user")
         val alertDialog = AlertDialog.Builder(activity)
         alertDialog.setTitle("Delete User")
         alertDialog.setMessage("Are you sure to delete Store ?")
@@ -84,8 +87,9 @@ class ProfileShowFragment : Fragment() {
                     .addOnCompleteListener {
                         showDialog()
                         if (it.isSuccessful && !it.result.isEmpty) {
-                            firebaseFirestore.collection("user").document(uid).delete()
-                            firebaseAuth.currentUser!!.delete()
+                            userCollectionReference.document(uid)
+                                .delete()
+                            user.delete ()
                             firebaseAuth.signOut()
                             hideDialog()
                             startActivity(Intent(activity, LoginActivity::class.java))

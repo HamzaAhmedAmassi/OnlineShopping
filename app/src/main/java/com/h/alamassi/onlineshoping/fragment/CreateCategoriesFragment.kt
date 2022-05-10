@@ -28,6 +28,7 @@ class CreateCategoriesFragment : Fragment() {
     companion object {
         private const val TAG = "CreateCategoryFragment"
         const val IMAGE_REQUEST_CODE = 102
+        var categoryName = ""
     }
 
     private var imagePath: String = ""
@@ -54,65 +55,21 @@ class CreateCategoriesFragment : Fragment() {
         }
     }
 
-    private fun chooseImage() {
-        val galleryPermission = ActivityCompat.checkSelfPermission(
-            requireContext(),
-            READ_EXTERNAL_STORAGE
-        )
-        if (galleryPermission != PackageManager.PERMISSION_DENIED) {
-            //Open PickImageActivity
-            chooseImageFromGallery()
-        } else {
-            //Ask User
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(READ_EXTERNAL_STORAGE),
-                IMAGE_REQUEST_CODE
-            )
-        }
-    }
-
-    private fun chooseImageFromGallery() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "image/*"
-        startActivityForResult(
-            intent,
-            IMAGE_REQUEST_CODE
-        )
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == IMAGE_REQUEST_CODE && resultCode == AppCompatActivity.RESULT_OK && data != null) {
-            if (data.data != null) {
-                val split: Array<String> =
-                    data.data!!.path!!.split(":".toRegex()).toTypedArray() //split the path.
-                val filePath = split[1] //assign it to a string(your choice).
-                val bm = BitmapFactory.decodeFile(filePath)
-                createCategoryBinding.ivCategoryImage.setImageBitmap(bm)
-
-                imagePath = filePath
-                Log.d(TAG, "onActivityResult: imagePath $imagePath")
-            }
-        }
-    }
 
     private fun createCategory() {
-        val name = createCategoryBinding.etCategoryName.text.toString()
+        categoryName = createCategoryBinding.etCategoryName.text.toString()
         val image = imagePath
-        val categoryId = firebaseFirestore.collection("categories").document().id
-            Log.e("hma", "categoryIdCreate : $categoryId")
+        val categoriesCollectionReference = firebaseFirestore.collection("categories")
 
-        if (name.isEmpty()) {
+        if (categoryName.isEmpty()) {
             Toast.makeText(requireContext(), "Name required", Toast.LENGTH_SHORT).show()
         } else {
-
+            val catId = categoriesCollectionReference.document().id
             val data = HashMap<String, String>()
-            data["name"] = name
+            data["name"] = categoryName
             data["image"] = image
-            data["catId"] = categoryId
-            firebaseFirestore.collection("categories").add(data)
+            data["catId"] = catId
+            categoriesCollectionReference.document(catId).set(data)
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
                         Toast.makeText(context, "Created Successfully", Toast.LENGTH_LONG)

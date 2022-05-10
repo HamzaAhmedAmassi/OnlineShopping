@@ -41,7 +41,7 @@ class SignUpActivity : AppCompatActivity() {
             signUp()
         }
         signUpBinding.fabChooseImage.setOnClickListener {
-            chooseImage()
+//            chooseImage()
         }
         signUpBinding.tvLogin.setOnClickListener {
             onBackPressed()
@@ -49,37 +49,10 @@ class SignUpActivity : AppCompatActivity() {
     }
 
 
-    private fun chooseImage() {
-        val galleryPermission = ActivityCompat.checkSelfPermission(
-            this,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        )
-        if (galleryPermission != PackageManager.PERMISSION_DENIED) {
-            //Open PickImageActivity
-            chooseImageFromGallery()
-        } else {
-            //Ask User
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                CreateCategoriesFragment.IMAGE_REQUEST_CODE
-            )
-        }
-    }
-
-    private fun chooseImageFromGallery() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "image/*"
-        startActivityForResult(
-            intent,
-            IMAGE_REQUEST_CODE
-        )
-    }
-
     private fun signUp() {
-        val email = signUpBinding.txtEmail.text.toString()
-        val password = signUpBinding.txtPassword.text.toString()
-        val username = signUpBinding.txtUsername.text.toString()
+        val email = signUpBinding.edEmail.text.toString()
+        val password = signUpBinding.edPassword.text.toString()
+        val username = signUpBinding.edUsername.text.toString()
         val image = imagePath
         when {
             email.isEmpty() -> {
@@ -110,7 +83,9 @@ class SignUpActivity : AppCompatActivity() {
                                 data["email"] = email
                                 data["username"] = username
                                 data["image"] = image
-                                firebaseFirestore.collection("user").add(data)
+                                firebaseFirestore.collection("user")
+                                    .document(firebaseAuth.currentUser!!.uid)
+                                    .set(data)
                                     .addOnCompleteListener {
                                         if (!it.isSuccessful) {
                                             Toast.makeText(this, "Insert Failed", Toast.LENGTH_LONG)
@@ -136,22 +111,6 @@ class SignUpActivity : AppCompatActivity() {
             }
         }
 
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == IMAGE_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-            if (data.data != null) {
-                val split: Array<String> =
-                    data.data!!.path!!.split(":".toRegex()).toTypedArray() //split the path.
-                val filePath = split[1] //assign it to a string(your choice).
-                val bm = BitmapFactory.decodeFile(filePath)
-                signUpBinding.ivUserPhoto.setImageBitmap(bm)
-                imagePath = filePath
-                Log.d(TAG, "onActivityResult: imagePath $imagePath")
-            }
-        }
     }
 
     private fun showDialog() {
