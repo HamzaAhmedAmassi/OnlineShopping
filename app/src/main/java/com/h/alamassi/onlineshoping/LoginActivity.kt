@@ -16,6 +16,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var progressDialog: ProgressDialog
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         loginBinding = ActivityLoginBinding.inflate(layoutInflater)

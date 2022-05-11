@@ -84,6 +84,7 @@ class SignUpActivity : AppCompatActivity() {
                                 data["uid"] = uid
                                 data["email"] = email
                                 data["username"] = username
+                                data["password"] = password
                                 data["image"] = image
                                 firebaseFirestore.collection("user")
                                     .document(firebaseAuth.currentUser!!.uid)

@@ -29,14 +29,14 @@ class ProductDescriptionFragment : Fragment() {
 
     @SuppressLint("LogConditional")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        firebaseFirestore = FirebaseFirestore.getInstance()
+
         val catId = arguments?.getString("catId") ?: ""
         val productId = arguments?.getString("productId") ?: ""
 
         Log.d("TAG", "catId: ${arguments?.getString("catId") ?: ""}")
         Log.d("TAG", "productId: ${arguments?.getString("productId") ?: ""}")
-
-        super.onViewCreated(view, savedInstanceState)
-        firebaseFirestore = FirebaseFirestore.getInstance()
 
         firebaseFirestore
             .collection("categories")

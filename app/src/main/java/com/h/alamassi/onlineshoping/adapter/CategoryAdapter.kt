@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.h.alamassi.onlineshoping.R
 import com.h.alamassi.onlineshoping.databinding.ItemCategoryBinding
+import com.h.alamassi.onlineshoping.fragment.CategoryFragment
 import com.h.alamassi.onlineshoping.fragment.ProductFragment
 import com.h.alamassi.onlineshoping.model.Category
 
@@ -58,6 +59,8 @@ class CategoryAdapter(
                                 Toast.LENGTH_SHORT
                             )
                                 .show()
+                            activity.supportFragmentManager.beginTransaction()
+                                .replace(R.id.fragment_container, CategoryFragment()).commit()
 
                         } else {
                             Toast.makeText(activity, "Something Error ", Toast.LENGTH_LONG)
@@ -81,6 +84,7 @@ class CategoryAdapter(
             bundle.putString("catId", currentCategory.catId)
             activity.supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, ProductFragment::class.java, bundle).commit()
+
         }
 //        holder.binding.ivCategory.setImageURI(Uri.parse(currentCategory.image))
         holder.binding.tvCategoryName.text = currentCategory.name
