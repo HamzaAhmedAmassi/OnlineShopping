@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.h.alamassi.onlineshoping.R
 import com.h.alamassi.onlineshoping.databinding.ItemProductBinding
@@ -22,7 +21,6 @@ class ProductAdapter(
 ) :
     RecyclerView.Adapter<ProductAdapter.MyViewHolder>() {
     private lateinit var firebaseFirestore: FirebaseFirestore
-    private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var progressDialog: ProgressDialog
 
     class MyViewHolder(var binding: ItemProductBinding) : RecyclerView.ViewHolder(binding.root)
@@ -30,7 +28,6 @@ class ProductAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = ItemProductBinding.inflate(activity.layoutInflater, parent, false)
         firebaseFirestore = FirebaseFirestore.getInstance()
-        firebaseAuth = FirebaseAuth.getInstance()
 
         return MyViewHolder(binding)
     }
@@ -45,7 +42,6 @@ class ProductAdapter(
             alertDialog.setMessage("Are you sure to delete category ?")
             alertDialog.setIcon(R.drawable.delete)
             alertDialog.setPositiveButton("Yes") { _, _ ->
-                showDialog()
                 firebaseFirestore
                     .collection("categories")
                     .document(catId)
@@ -76,7 +72,6 @@ class ProductAdapter(
 
             }
             alertDialog.setNegativeButton("No") { _, _ ->
-                hideDialog()
             }
             alertDialog.create().show()
 

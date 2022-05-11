@@ -1,14 +1,10 @@
 package com.h.alamassi.onlineshoping.fragment
 
-import android.annotation.SuppressLint
-import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.h.alamassi.onlineshoping.R
 import com.h.alamassi.onlineshoping.databinding.FragmentProductDescriptionBinding
@@ -27,7 +23,6 @@ class ProductDescriptionFragment : Fragment() {
         return productDescriptionBinding.root
     }
 
-    @SuppressLint("LogConditional")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         firebaseFirestore = FirebaseFirestore.getInstance()
@@ -35,14 +30,13 @@ class ProductDescriptionFragment : Fragment() {
         val catId = arguments?.getString("catId") ?: ""
         val productId = arguments?.getString("productId") ?: ""
 
-        Log.d("TAG", "catId: ${arguments?.getString("catId") ?: ""}")
-        Log.d("TAG", "productId: ${arguments?.getString("productId") ?: ""}")
 
         firebaseFirestore
             .collection("categories")
             .document(catId)
             .collection("products")
             .whereEqualTo("productId", productId)
+            .limit(1)
             .get()
             .addOnCompleteListener {
                 if (it.isSuccessful && !it.result.isEmpty) {
@@ -67,8 +61,6 @@ class ProductDescriptionFragment : Fragment() {
                     bundle
                 ).commit()
         }
-
-
     }
 }
 

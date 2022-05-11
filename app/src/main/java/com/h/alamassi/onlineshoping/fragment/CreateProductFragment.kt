@@ -1,19 +1,12 @@
 package com.h.alamassi.onlineshoping.fragment
 
-import android.Manifest
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
+
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.h.alamassi.onlineshoping.R
 import com.h.alamassi.onlineshoping.databinding.FragmentCreateProductBinding
@@ -99,8 +92,8 @@ class CreateProductFragment : Fragment() {
                                 "Something error, Please try again later",
                                 Toast.LENGTH_SHORT
                             ).show()
-                            requireActivity().supportFragmentManager.beginTransaction()
-                                .replace(R.id.fragment_container, ProductFragment()).commit()
+                            requireActivity().onBackPressed()
+
                         }
                     }
             }

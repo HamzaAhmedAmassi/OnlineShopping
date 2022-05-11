@@ -44,11 +44,12 @@ class ProfileShowFragment : Fragment() {
 
         firebaseFirestore.collection("user")
             .whereEqualTo("uid", firebaseAuth.currentUser!!.uid)
+            .limit(1)
             .get()
             .addOnCompleteListener {
                 if (it.isSuccessful && !it.result.isEmpty) {
                     for (q in it.result) {
-                        profileShowBinding.edEmail.setText(firebaseAuth.currentUser!!.email)
+                        profileShowBinding.edEmail.setText(q.data["email"].toString())
                         profileShowBinding.edPassword.setText(q.data["password"].toString())
                         profileShowBinding.edUsername.setText(q.data["username"].toString())
                         hideDialog()

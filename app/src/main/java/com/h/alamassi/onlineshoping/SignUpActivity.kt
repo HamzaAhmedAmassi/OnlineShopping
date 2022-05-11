@@ -1,19 +1,13 @@
 package com.h.alamassi.onlineshoping
 
-import android.Manifest
 import android.app.ProgressDialog
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.h.alamassi.onlineshoping.databinding.ActivitySignUpBinding
-import com.h.alamassi.onlineshoping.fragment.CreateCategoriesFragment
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var signUpBinding: ActivitySignUpBinding

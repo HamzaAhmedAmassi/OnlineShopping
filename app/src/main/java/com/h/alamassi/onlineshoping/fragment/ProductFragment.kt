@@ -2,13 +2,11 @@ package com.h.alamassi.onlineshoping.fragment
 
 import android.app.ProgressDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.h.alamassi.onlineshoping.MainActivity
 import com.h.alamassi.onlineshoping.R
@@ -20,7 +18,6 @@ import com.h.alamassi.onlineshoping.model.Product
 class ProductFragment : Fragment() {
     private lateinit var productBinding: FragmentProductBinding
     private lateinit var firebaseFirestore: FirebaseFirestore
-    private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var progressDialog: ProgressDialog
 
 companion object{
@@ -37,10 +34,8 @@ companion object{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         firebaseFirestore = FirebaseFirestore.getInstance()
-        firebaseAuth = FirebaseAuth.getInstance()
 
          catId = arguments?.getString("catId") ?: ""
-        Log.e("TAG", "onViewCreated: catId = $catId")
 
 
         firebaseFirestore

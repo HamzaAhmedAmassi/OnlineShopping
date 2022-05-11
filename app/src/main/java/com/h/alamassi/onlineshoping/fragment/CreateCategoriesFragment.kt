@@ -1,19 +1,12 @@
 package com.h.alamassi.onlineshoping.fragment
 
-import android.Manifest.permission.READ_EXTERNAL_STORAGE
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
+
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.h.alamassi.onlineshoping.R
 import com.h.alamassi.onlineshoping.databinding.FragmentCreateCategoriesBinding
@@ -23,10 +16,8 @@ class CreateCategoriesFragment : Fragment() {
 
     private lateinit var createCategoryBinding: FragmentCreateCategoriesBinding
     private lateinit var firebaseFirestore: FirebaseFirestore
-    private lateinit var firebaseAuth: FirebaseAuth
 
     companion object {
-        private const val TAG = "CreateCategoryFragment"
         const val IMAGE_REQUEST_CODE = 102
         var categoryName = ""
     }
@@ -45,7 +36,6 @@ class CreateCategoriesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         firebaseFirestore = FirebaseFirestore.getInstance()
-        firebaseAuth = FirebaseAuth.getInstance()
 
         createCategoryBinding.btnSaveCategory.setOnClickListener {
             createCategory()
@@ -84,8 +74,8 @@ class CreateCategoriesFragment : Fragment() {
                             "Something error, Please try again later",
                             Toast.LENGTH_SHORT
                         ).show()
-                        requireActivity().supportFragmentManager.beginTransaction()
-                            .replace(R.id.fragment_container, CategoryFragment()).commit()
+                        requireActivity().onBackPressed()
+
                     }
                 }
 

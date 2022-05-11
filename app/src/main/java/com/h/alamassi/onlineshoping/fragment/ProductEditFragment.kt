@@ -1,13 +1,12 @@
 package com.h.alamassi.onlineshoping.fragment
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.h.alamassi.onlineshoping.R
 import com.h.alamassi.onlineshoping.databinding.FragmentProductEditBinding
@@ -15,6 +14,8 @@ import com.h.alamassi.onlineshoping.databinding.FragmentProductEditBinding
 class ProductEditFragment : Fragment() {
     private lateinit var productEditBinding: FragmentProductEditBinding
     private lateinit var firebaseFirestore: FirebaseFirestore
+    private lateinit var productCollectionReference: CollectionReference
+
     lateinit var productId: String
     lateinit var catId: String
 
@@ -27,23 +28,22 @@ class ProductEditFragment : Fragment() {
         return productEditBinding.root
     }
 
-    @SuppressLint("LogConditional")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        firebaseFirestore = FirebaseFirestore.getInstance()
+
         catId = arguments?.getString("catId") ?: ""
         productId = arguments?.getString("productId") ?: ""
 
-        Log.d("TAG", "catIdEdit: ${arguments?.getString("catId") ?: ""}")
-        Log.d("TAG", "productIdEdit: ${arguments?.getString("productId") ?: ""}")
-
-        super.onViewCreated(view, savedInstanceState)
-        firebaseFirestore = FirebaseFirestore.getInstance()
-        Log.e("TAG", "cat id: PEF $catId")
-        Log.e("TAG", "product id: PEF $productId")
-        firebaseFirestore
+        productCollectionReference = firebaseFirestore
             .collection("categories")
             .document(catId)
             .collection("products")
+
+
+        productCollectionReference
             .whereEqualTo("productId", productId)
+            .limit(1)
             .get()
             .addOnCompleteListener {
                 if (it.isSuccessful && !it.result.isEmpty) {
@@ -62,11 +62,6 @@ class ProductEditFragment : Fragment() {
         }
         productEditBinding.btnUpdate.setOnClickListener {
             update()
-
-//            requireActivity().supportFragmentManager.beginTransaction()
-//                .replace(
-//                    R.id.fragment_container,
-//                    ProductFragment()).commit()
         }
 
 
@@ -75,40 +70,44 @@ class ProductEditFragment : Fragment() {
     private fun chooseImage() {}
 
     private fun update() {
-        val name = productEditBinding.edName.text.toString()
-        val description = productEditBinding.edDescription.text.toString()
-        val price = productEditBinding.edPrice.text.toString()
-        val quantity = productEditBinding.edQuantity.text.toString()
+        val newName = productEditBinding.edName.text.toString()
+        val newDescription = productEditBinding.edDescription.text.toString()
+        val newPrice = productEditBinding.edPrice.text.toString()
+        val newQuantity = productEditBinding.edQuantity.text.toString()
 //        val image = productEditBinding.ivProductImage
-        val image = ""
+        val newImage = ""
 
 
-        val map = HashMap<String, Any>()
-        map["name"] = name
-        map["description"] = description
-        map["price"] = price
-        map["quantity"] = quantity
-        map["image"] = image
-        firebaseFirestore.collection("categories").document(catId).collection("product")
+        val data = HashMap<String, Any>()
+        data["name"] = newName
+        data["description"] = newDescription
+        data["image"] = newImage
+        data["price"] = newPrice
+        data["quantity"] = newQuantity
+        productCollectionReference
             .document(productId)
-            .update(map)
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    Toast.makeText(activity, "Updated Successfully", Toast.LENGTH_SHORT).show()
-                    requireActivity().supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, ProductDescriptionFragment()).commit()
-                } else {
-                    Toast.makeText(activity, "Updated Failed", Toast.LENGTH_SHORT).show()
-                    Log.e("TAG", "Cat Id : $catId")
-                    Log.e("TAG", "Product Id : $productId")
-                    requireActivity().supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, ProductDescriptionFragment()).commit()
-
-                }
+            .update(data)
+            .addOnSuccessListener {
+                Toast.makeText(activity, "Updated Successfully", Toast.LENGTH_SHORT).show()
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(
+                        R.id.fragment_container,
+                        CategoryFragment()
+                    ).commit()
             }
+            .addOnFailureListener {
+                Toast.makeText(activity, "Updated Failed", Toast.LENGTH_SHORT).show()
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(
+                        R.id.fragment_container,
+                        ProductDescriptionFragment()
+                    ).commit()
 
+            }
     }
 
-
 }
+
+
+
 
