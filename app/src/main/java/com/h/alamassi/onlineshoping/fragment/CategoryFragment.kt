@@ -58,6 +58,8 @@ class CategoryFragment : Fragment() {
 
 
                     }
+                }else{
+                    hideDialog()
                 }
 
 
