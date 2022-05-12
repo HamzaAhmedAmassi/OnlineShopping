@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.h.alamassi.onlineshoping.databinding.ActivityMainBinding
+import com.h.alamassi.onlineshoping.fragment.CartItemFragment
 import com.h.alamassi.onlineshoping.fragment.CategoryFragment
 import com.h.alamassi.onlineshoping.fragment.ProfileShowFragment
 
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
             val fragment = when (it.itemId) {
                 R.id.nav_home -> CategoryFragment()
                 R.id.nav_profile -> ProfileShowFragment()
-//                R.id.nav_favorite -> FavouritesFragment()
+                R.id.nav_catItem -> CartItemFragment()
                 else -> CategoryFragment()
             }
             supportFragmentManager.beginTransaction()
@@ -51,9 +52,13 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.logOutItem -> onClickLogout()
-            //R.id.searchItem -> onClickLogout()
+            R.id.searchItem -> search()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun search() {
+
     }
 
     private fun onClickLogout() {

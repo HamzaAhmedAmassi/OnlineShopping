@@ -16,9 +16,10 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var progressDialog: ProgressDialog
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        actionBar!!.title = "Login"
+
         loginBinding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(loginBinding.root)
         firebaseFirestore = FirebaseFirestore.getInstance()

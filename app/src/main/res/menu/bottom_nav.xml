@@ -11,7 +11,7 @@
 
     <item
         android:id="@+id/nav_catItem"
-        android:icon="@drawable/ic_baseline_favorite_24"
+        android:icon="@drawable/cart_item"
         android:title="CartItem"/>
 
 
