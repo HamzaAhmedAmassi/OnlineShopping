@@ -3,6 +3,8 @@ package com.h.alamassi.onlineshoping.fragment
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -17,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.h.alamassi.onlineshoping.LoginActivity
 import com.h.alamassi.onlineshoping.R
+import com.h.alamassi.onlineshoping.SignUpActivity
 import com.h.alamassi.onlineshoping.databinding.FragmentProfileShowBinding
 
 class ProfileShowFragment : Fragment() {
@@ -55,8 +58,8 @@ class ProfileShowFragment : Fragment() {
                         profileShowBinding.edEmail.setText(q.data["email"].toString())
                         profileShowBinding.edPassword.setText(q.data["password"].toString())
                         profileShowBinding.edUsername.setText(q.data["username"].toString())
+                        profileShowBinding.ivUser.setImageURI(ProfileEditFragment.imagePath)
                         hideDialog()
-//                        profileShowBinding.ivUser.setImageBitmap(q.data["image"] as Bitmap?)
                     }
                 } else {
                     hideDialog()
@@ -93,9 +96,11 @@ class ProfileShowFragment : Fragment() {
                         if (it.isSuccessful && !it.result.isEmpty) {
                             userCollectionReference.document(uid)
                                 .delete()
+
                             user.delete ()
                             firebaseAuth.signOut()
                             hideDialog()
+
                             startActivity(Intent(activity, LoginActivity::class.java))
                             Toast.makeText(activity, "Deleted Successfully", Toast.LENGTH_SHORT)
                                 .show()

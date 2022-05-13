@@ -1,22 +1,26 @@
 package com.h.alamassi.onlineshoping.fragment
 
+import android.Manifest
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
-import android.os.Build
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.h.alamassi.onlineshoping.LoginActivity
 import com.h.alamassi.onlineshoping.R
+import com.h.alamassi.onlineshoping.SignUpActivity
 import com.h.alamassi.onlineshoping.databinding.FragmentProfileEditBinding
 
 
@@ -28,7 +32,11 @@ class ProfileEditFragment : Fragment() {
     private var currentEmail: String = ""
     private var currentPassword: String = ""
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    companion object {
+        const val IMAGE_REQUEST_CODE = 101
+        var imagePath = SignUpActivity.imagePath
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,7 +47,6 @@ class ProfileEditFragment : Fragment() {
         return profileEditBinding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity).supportActionBar?.title = "Edit Profile"
@@ -60,8 +67,8 @@ class ProfileEditFragment : Fragment() {
                         profileEditBinding.edEmail.setText(currentEmail)
                         profileEditBinding.edPassword.setText(currentPassword)
                         profileEditBinding.edUsername.setText(q.data["username"].toString())
+                        profileEditBinding.ivUser.setImageURI(imagePath)
                         hideDialog()
-//                        profileShowFragmentBinding.ivUser.setImageBitmap(q.data["image"] as Bitmap?)
                     }
                 } else {
                     hideDialog()
@@ -83,7 +90,22 @@ class ProfileEditFragment : Fragment() {
     }
 
     private fun chooseImage() {
-
+        val galleryPermission = ActivityCompat.checkSelfPermission(
+            requireActivity(),
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
+        if (galleryPermission != PackageManager.PERMISSION_DENIED) {
+            val intent = Intent()
+            intent.action = Intent.ACTION_PICK
+            intent.type = "image/*"
+            startActivityForResult(intent, IMAGE_REQUEST_CODE)
+        } else {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                IMAGE_REQUEST_CODE
+            )
+        }
     }
 
 
@@ -91,7 +113,7 @@ class ProfileEditFragment : Fragment() {
         val newEmail = profileEditBinding.edEmail.text.toString()
         val newPassword = profileEditBinding.edPassword.text.toString()
         val newUsername = profileEditBinding.edUsername.text.toString()
-
+        val newImage = imagePath
 
         val user = FirebaseAuth.getInstance().currentUser
 
@@ -115,7 +137,8 @@ class ProfileEditFragment : Fragment() {
                                         mapOf(
                                             "email" to newEmail,
                                             "password" to newPassword,
-                                            "username" to newUsername
+                                            "username" to newUsername,
+                                            "image" to newImage
                                         )
                                     )
                                         .addOnCompleteListener {
@@ -209,4 +232,25 @@ class ProfileEditFragment : Fragment() {
         if (progressDialog.isShowing)
             progressDialog.dismiss()
     }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            imagePath = data!!.data
+            profileEditBinding.ivUser.setImageURI(imagePath)
+
+//            val bitmap = (signUpBinding.ivUserPhoto.drawable as BitmapDrawable).bitmap
+//            val baos = ByteArrayOutputStream()
+//            bitmap.compress(Bitmap.CompressFormat.PNG,100,baos)
+//            val data = baos.toByteArray()
+//            val uploadTask = imageRef.putBytes(data)
+//            uploadTask.addOnCompleteListener {
+//                if (it.isSuccessful){
+//                    Log.d("TAG", "onActivityResult: image Uploaded Successfully")
+//                }else{
+//                    Log.d("TAG", "onActivityResult: image Uploaded Successfully")
+//                }
+//            }
+        }
+    }
+
 }
