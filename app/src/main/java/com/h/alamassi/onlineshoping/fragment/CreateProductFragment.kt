@@ -2,14 +2,12 @@ package com.h.alamassi.onlineshoping.fragment
 
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +25,6 @@ import java.util.*
 
 
 class CreateProductFragment : Fragment() {
-    private val TAG = "CreateProductFragment"
 
     private lateinit var createProductBinding: FragmentCreateProductBinding
     private lateinit var firebaseFirestore: FirebaseFirestore
@@ -35,13 +32,13 @@ class CreateProductFragment : Fragment() {
     private val storage = FirebaseStorage.getInstance()
     private val storageReference = storage.reference
     private var productCollectionReference: CollectionReference? = null
+    private var imagePath: Uri? = null
 
     companion object {
         const val IMAGE_REQUEST_CODE = 103
 
     }
 
-    private var imagePath: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,8 +61,6 @@ class CreateProductFragment : Fragment() {
             chooseImage()
         }
     }
-
-
 
 
     private fun createProduct() {
@@ -110,19 +105,10 @@ class CreateProductFragment : Fragment() {
 
             ref.putFile(imagePath!!)
                 .addOnSuccessListener {
-                    Log.d("this", "Uploaded Successfully")
                     ref.downloadUrl.addOnSuccessListener {
-
-                        Log.d(TAG, "uploadImage: $it")
                         storeProductInDB(it.toString())
                     }
                 }
-                .addOnFailureListener {
-                    Log.d("this", "Uploaded Failed")
-
-                }
-
-
         }
     }
 

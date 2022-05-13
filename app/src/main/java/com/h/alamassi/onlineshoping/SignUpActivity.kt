@@ -7,20 +7,17 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import com.h.alamassi.onlineshoping.databinding.ActivitySignUpBinding
 import java.util.*
 
 
 class SignUpActivity : AppCompatActivity() {
-    private val TAG = "SignUpActivity"
 
     private lateinit var signUpBinding: ActivitySignUpBinding
     private lateinit var firebaseFirestore: FirebaseFirestore
@@ -28,13 +25,11 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var progressDialog: ProgressDialog
     private val storage = FirebaseStorage.getInstance()
     private val storageReference = storage.reference
-
+    private var imagePath: Uri? = null
 
     companion object {
         const val IMAGE_REQUEST_CODE = 101
     }
-
-    var imagePath: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +50,6 @@ class SignUpActivity : AppCompatActivity() {
             onBackPressed()
         }
     }
-
 
 
     private fun signUp() {
@@ -95,21 +89,16 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun uploadImage() {
         if (imagePath != null) {
-            Log.d(TAG, "uploadImage: imagePath $imagePath")
             val imageName = "${UUID.randomUUID()}.jpeg"
             val ref = storageReference.child("images/$imageName")
 
             ref.putFile(imagePath!!)
                 .addOnSuccessListener {
-                    Log.d("this", "Uploaded Successfully")
                     ref.downloadUrl.addOnSuccessListener {
-
-                        Log.d(TAG, "uploadImage: $it")
                         storeUserInDB(it.toString())
                     }
                 }
                 .addOnFailureListener {
-                    Log.d("this", "Uploaded Failed")
 
                 }
         }

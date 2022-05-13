@@ -8,7 +8,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +24,6 @@ import java.util.*
 
 
 class CreateCategoriesFragment : Fragment() {
-    private val TAG = "CreateCategoryFragment"
 
     private lateinit var createCategoryBinding: FragmentCreateCategoriesBinding
     private lateinit var firebaseFirestore: FirebaseFirestore
@@ -83,19 +81,10 @@ class CreateCategoriesFragment : Fragment() {
 
             ref.putFile(imagePath!!)
                 .addOnSuccessListener {
-                    Log.d("this", "Uploaded Successfully")
                     ref.downloadUrl.addOnSuccessListener {
-
-                        Log.d(TAG, "uploadImage: $it")
                         storeCategoryInDB(it.toString())
                     }
                 }
-                .addOnFailureListener {
-                    Log.d("this", "Uploaded Failed")
-
-                }
-
-
         }
     }
 
