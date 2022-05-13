@@ -97,18 +97,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/edName" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabChooseImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:src="@drawable/ic_baseline_image_24"
-        app:layout_constraintBottom_toBottomOf="@+id/ivProductImage"
-        app:layout_constraintEnd_toEndOf="@+id/ivProductImage"
-        app:layout_constraintStart_toEndOf="@+id/ivProductImage"
-        app:layout_constraintTop_toBottomOf="@+id/ivProductImage"
-        tools:ignore="SpeakableTextPresentCheck" />
-
     <TextView
         android:id="@+id/tvQuantity"
         android:layout_width="wrap_content"

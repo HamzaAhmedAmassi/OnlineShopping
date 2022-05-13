@@ -26,26 +26,31 @@ class CategoryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         categoryBinding = FragmentCategoryBinding.inflate(inflater, container, false)
+        firebaseFirestore = FirebaseFirestore.getInstance()
+        showDialog()
         return categoryBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.title = "Categories"
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Categories"
 
-        firebaseFirestore = FirebaseFirestore.getInstance()
+        readeData()
+        categoryBinding.fabAddCategory.setOnClickListener {
+            addCategoryFragment()
+        }
 
-        showDialog()
+    }
 
+
+    private fun readeData() {
         firebaseFirestore.collection("categories")
             .get()
             .addOnCompleteListener { it ->
                 if (it.isSuccessful && !it.result.isEmpty) {
                     val cats = it.result.map {
                         it.toObject(Category::class.java)
-
                     }
                     val categoryAdapter = CategoryAdapter(
                         requireActivity() as MainActivity,
@@ -54,25 +59,22 @@ class CategoryFragment : Fragment() {
                     categoryBinding.rvCategory.layoutManager =
                         LinearLayoutManager(requireActivity())
                     categoryBinding.rvCategory.adapter = categoryAdapter
-                    hideDialog()
                     categoryBinding.root.setOnClickListener {
                         requireActivity().supportFragmentManager.beginTransaction()
+                            .addToBackStack("")
                             .replace(R.id.fragment_container, ProductFragment()).commit()
 
 
                     }
-                }else{
-                    hideDialog()
                 }
 
-
-
-                categoryBinding.fabAddCategory.setOnClickListener {
-                    requireActivity().supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, CreateCategoriesFragment()).commit()
-                }
+                hideDialog()
             }
+    }
 
+    private fun addCategoryFragment() {
+        requireActivity().supportFragmentManager.beginTransaction().addToBackStack("")
+            .replace(R.id.fragment_container, CreateCategoriesFragment()).commit()
     }
 
     private fun showDialog() {

@@ -14,6 +14,8 @@ import com.h.alamassi.onlineshoping.databinding.ItemCategoryBinding
 import com.h.alamassi.onlineshoping.fragment.CategoryFragment
 import com.h.alamassi.onlineshoping.fragment.ProductFragment
 import com.h.alamassi.onlineshoping.model.Category
+import com.squareup.picasso.Picasso
+
 
 class CategoryAdapter(
     private var activity: AppCompatActivity,
@@ -49,7 +51,6 @@ class CategoryAdapter(
                     .delete()
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
-                            hideDialog()
                             Toast.makeText(
                                 activity,
                                 "Deleted Successfully",
@@ -83,8 +84,15 @@ class CategoryAdapter(
                 .replace(R.id.fragment_container, ProductFragment::class.java, bundle).commit()
 
         }
-//        holder.binding.ivCategory.setImageURI(Uri.parse(currentCategory.image))
+
         holder.binding.tvCategoryName.text = currentCategory.name
+        Picasso
+            .get()
+            .load(currentCategory.image.ifEmpty { "a" })
+            .placeholder(R.drawable.defult_category)
+            .error(R.drawable.online_shopping_apps)
+            .into(holder.binding.ivCategory)
+
     }
 
     override fun getItemCount(): Int {

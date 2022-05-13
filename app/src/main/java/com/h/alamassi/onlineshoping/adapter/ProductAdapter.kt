@@ -14,6 +14,7 @@ import com.h.alamassi.onlineshoping.fragment.CategoryFragment
 import com.h.alamassi.onlineshoping.fragment.ProductDescriptionFragment
 import com.h.alamassi.onlineshoping.fragment.ProductFragment
 import com.h.alamassi.onlineshoping.model.Product
+import com.squareup.picasso.Picasso
 
 class ProductAdapter(
     private var activity: AppCompatActivity,
@@ -35,13 +36,13 @@ class ProductAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val catId = ProductFragment.catId
         val currentProduct = data[position]
-        showDialog()
         holder.binding.root.setOnLongClickListener {
             val alertDialog = AlertDialog.Builder(activity)
             alertDialog.setTitle("Delete Category")
             alertDialog.setMessage("Are you sure to delete category ?")
             alertDialog.setIcon(R.drawable.delete)
             alertDialog.setPositiveButton("Yes") { _, _ ->
+                showDialog()
                 firebaseFirestore
                     .collection("categories")
                     .document(catId)
@@ -88,9 +89,12 @@ class ProductAdapter(
         }
         holder.binding.tvPrice.text = currentProduct.price
         holder.binding.tvProductName.text = currentProduct.name
-//      holder.binding.ivCategory.setImageURI(Uri.parse(currentCategory.image))
-        hideDialog()
-    }
+        Picasso
+            .get()
+            .load(currentProduct.image.ifEmpty { "a" })
+            .placeholder(R.drawable.default_product)
+            .error(R.drawable.online_shopping_image)
+            .into(holder.binding.ivImageBook)    }
 
     override fun getItemCount(): Int {
         return data.size

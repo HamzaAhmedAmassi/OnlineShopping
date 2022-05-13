@@ -20,19 +20,21 @@ import java.util.*
 
 
 class SignUpActivity : AppCompatActivity() {
+    private val TAG = "SignUpActivity"
+
     private lateinit var signUpBinding: ActivitySignUpBinding
     private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var progressDialog: ProgressDialog
-    private val storage = FirebaseStorage.getInstance();
-    private val storageReference = storage.reference;
+    private val storage = FirebaseStorage.getInstance()
+    private val storageReference = storage.reference
 
 
     companion object {
         const val IMAGE_REQUEST_CODE = 101
-        var imagePath: Uri? = null
     }
 
+    var imagePath: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,30 +57,11 @@ class SignUpActivity : AppCompatActivity() {
     }
 
 
-    private fun chooseImage() {
-        val galleryPermission = ActivityCompat.checkSelfPermission(
-            this,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        )
-        if (galleryPermission != PackageManager.PERMISSION_DENIED) {
-            val intent = Intent()
-            intent.action = Intent.ACTION_PICK
-            intent.type = "image/*"
-            startActivityForResult(intent, IMAGE_REQUEST_CODE)
-        } else {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                IMAGE_REQUEST_CODE
-            )
-        }
-    }
 
     private fun signUp() {
         val email = signUpBinding.edEmail.text.toString()
         val password = signUpBinding.edPassword.text.toString()
         val username = signUpBinding.edUsername.text.toString()
-        val image = imagePath
         when {
             email.isEmpty() -> {
                 Toast.makeText(this, "email required, can’t be empty", Toast.LENGTH_LONG).show()
@@ -96,38 +79,9 @@ class SignUpActivity : AppCompatActivity() {
                 showDialog()
                 firebaseAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener {
+                        showDialog()
                         if (it.isSuccessful) {
-                            showDialog()
-                            val user = firebaseAuth.currentUser
-                            if (user != null) {
-                                val uid = user.uid
-                                val data = HashMap<String, Any>()
-                                data["uid"] = uid
-                                data["email"] = email
-                                data["username"] = username
-                                data["password"] = password
-                                data["image"] = image.toString()
-                                firebaseFirestore.collection("user")
-                                    .document(firebaseAuth.currentUser!!.uid)
-                                    .set(data)
-                                uploadImage()
-                                Toast.makeText(
-                                    this,
-                                    "Created Account Successfully",
-                                    Toast.LENGTH_LONG
-                                )
-                                    .show()
-                                hideDialog()
-                                val i = Intent(this, MainActivity::class.java)
-                                startActivity(i)
-                                finish()
-                                hideDialog()
-
-                            } else {
-                                Toast.makeText(this, "Created Failed", Toast.LENGTH_LONG).show()
-                                hideDialog()
-
-                            }
+                            uploadImage()
                         } else {
                             Toast.makeText(this, "Created Failed", Toast.LENGTH_LONG).show()
                             hideDialog()
@@ -137,6 +91,90 @@ class SignUpActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun uploadImage() {
+        if (imagePath != null) {
+            Log.d(TAG, "uploadImage: imagePath $imagePath")
+            val imageName = "${UUID.randomUUID()}.jpeg"
+            val ref = storageReference.child("images/$imageName")
+
+            ref.putFile(imagePath!!)
+                .addOnSuccessListener {
+                    Log.d("this", "Uploaded Successfully")
+                    ref.downloadUrl.addOnSuccessListener {
+
+                        Log.d(TAG, "uploadImage: $it")
+                        storeUserInDB(it.toString())
+                    }
+                }
+                .addOnFailureListener {
+                    Log.d("this", "Uploaded Failed")
+
+                }
+        }
+    }
+
+    private fun storeUserInDB(imageURI: String) {
+        val user = firebaseAuth.currentUser
+        if (user != null) {
+            showDialog()
+            val email = signUpBinding.edEmail.text.toString()
+            val password = signUpBinding.edPassword.text.toString()
+            val username = signUpBinding.edUsername.text.toString()
+
+            val uid = user.uid
+            val data = HashMap<String, Any>()
+            data["uid"] = uid
+            data["email"] = email
+            data["username"] = username
+            data["password"] = password
+            data["image"] = imageURI
+
+            firebaseFirestore.collection("user")
+                .document(firebaseAuth.currentUser!!.uid)
+                .set(data)
+
+            Toast.makeText(
+                this,
+                "Created Account Successfully",
+                Toast.LENGTH_LONG
+            ).show()
+
+            hideDialog()
+            val i = Intent(this, MainActivity::class.java)
+            startActivity(i)
+            finish()
+        } else {
+            Toast.makeText(this, "Created Account Failed", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun chooseImage() {
+        val galleryPermission = ActivityCompat.checkSelfPermission(
+            this,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
+        if (galleryPermission != PackageManager.PERMISSION_DENIED) {
+            val intent = Intent()
+            intent.action = Intent.ACTION_PICK
+            intent.type = "image/*"
+            startActivityForResult(intent, Companion.IMAGE_REQUEST_CODE)
+        } else {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                Companion.IMAGE_REQUEST_CODE
+            )
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Companion.IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            imagePath = data!!.data
+            signUpBinding.ivUserPhoto.setImageURI(imagePath)
+        }
     }
 
     private fun showDialog() {
@@ -150,44 +188,4 @@ class SignUpActivity : AppCompatActivity() {
         if (progressDialog.isShowing)
             progressDialog.dismiss()
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            imagePath = data!!.data
-            signUpBinding.ivUserPhoto.setImageURI(imagePath)
-        }
-    }
-
-    private fun uploadImage() {
-
-//        val bitmap = (signUpBinding.ivUserPhoto as BitmapDrawable).bitmap
-//        val baos = ByteArrayOutputStream()
-//        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
-//        val data = baos.toByteArray()
-//        val uploadTask = imageRef.putBytes(data)
-//        uploadTask.addOnCompleteListener {
-//            if (it.isSuccessful) {
-//                Log.d("TAG", "onActivityResult: image Uploaded Successfully")
-//            } else {
-//                Log.d("TAG", "onActivityResult: image Uploaded Successfully")
-//            }
-//        }
-
-        if (imagePath != null) {
-            val ref: StorageReference =
-                storageReference.child("images/")
-
-            ref.putFile(imagePath!!)
-                .addOnSuccessListener {
-                    Log.d("this", "Uploaded Successfully")
-                }
-                .addOnFailureListener {
-                    Log.d("this", "Uploaded Failed")
-
-                }
-        }
-    }
 }
-
-

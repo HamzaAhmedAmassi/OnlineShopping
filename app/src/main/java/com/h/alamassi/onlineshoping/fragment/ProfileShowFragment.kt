@@ -3,24 +3,19 @@ package com.h.alamassi.onlineshoping.fragment
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
-import android.graphics.Bitmap
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.h.alamassi.onlineshoping.LoginActivity
 import com.h.alamassi.onlineshoping.R
-import com.h.alamassi.onlineshoping.SignUpActivity
 import com.h.alamassi.onlineshoping.databinding.FragmentProfileShowBinding
+import com.squareup.picasso.Picasso
 
 class ProfileShowFragment : Fragment() {
 
@@ -29,25 +24,35 @@ class ProfileShowFragment : Fragment() {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var progressDialog: ProgressDialog
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        showDialog()
         profileShowBinding = FragmentProfileShowBinding.inflate(inflater)
+        firebaseFirestore = FirebaseFirestore.getInstance()
+        firebaseAuth = FirebaseAuth.getInstance()
+        showDialog()
         return profileShowBinding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.title = "Profile"
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Profile"
 
-        firebaseFirestore = FirebaseFirestore.getInstance()
-        firebaseAuth = FirebaseAuth.getInstance()
+        readData()
+        profileShowBinding.ibDelete.setOnClickListener {
+            delete()
 
+        }
+        profileShowBinding.ibEdit.setOnClickListener {
+            editProfileFragment()
+        }
+
+    }
+
+
+    private fun readData() {
         firebaseFirestore.collection("user")
             .whereEqualTo("uid", firebaseAuth.currentUser!!.uid)
             .limit(1)
@@ -58,24 +63,21 @@ class ProfileShowFragment : Fragment() {
                         profileShowBinding.edEmail.setText(q.data["email"].toString())
                         profileShowBinding.edPassword.setText(q.data["password"].toString())
                         profileShowBinding.edUsername.setText(q.data["username"].toString())
-                        profileShowBinding.ivUser.setImageURI(ProfileEditFragment.imagePath)
-                        hideDialog()
+                        Picasso
+                            .get()
+                            .load(q.data["image"].toString()).into(profileShowBinding.ivUser)
                     }
                 } else {
-                    hideDialog()
                     Toast.makeText(context, "Something Error", Toast.LENGTH_LONG).show()
                 }
 
             }
-        profileShowBinding.ibDelete.setOnClickListener {
-            delete()
+        hideDialog()
+    }
 
-        }
-        profileShowBinding.ibEdit.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, ProfileEditFragment()).commit()
-        }
-
+    private fun editProfileFragment() {
+        requireActivity().supportFragmentManager.beginTransaction().addToBackStack("")
+            .replace(R.id.fragment_container, ProfileEditFragment()).commit()
     }
 
     private fun delete() {
@@ -96,27 +98,23 @@ class ProfileShowFragment : Fragment() {
                         if (it.isSuccessful && !it.result.isEmpty) {
                             userCollectionReference.document(uid)
                                 .delete()
-
-                            user.delete ()
+                            user.delete()
                             firebaseAuth.signOut()
-                            hideDialog()
-
                             startActivity(Intent(activity, LoginActivity::class.java))
                             Toast.makeText(activity, "Deleted Successfully", Toast.LENGTH_SHORT)
                                 .show()
 
                         } else {
-                            hideDialog()
                             Toast.makeText(activity, "Deleted Failed", Toast.LENGTH_LONG)
                                 .show()
+                            requireActivity().onBackPressed()
                         }
                     }
 
 
             } else {
                 Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show()
-                requireActivity().supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, CategoryFragment()).commit()
+                requireActivity().onBackPressed()
             }
 
         }

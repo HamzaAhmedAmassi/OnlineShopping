@@ -1,41 +1,63 @@
 package com.h.alamassi.onlineshoping.fragment
 
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.ProgressDialog
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import com.h.alamassi.onlineshoping.R
 import com.h.alamassi.onlineshoping.databinding.FragmentCreateProductBinding
+import com.h.alamassi.onlineshoping.fragment.ProductFragment.Companion.catId
+import java.util.*
 
 
 class CreateProductFragment : Fragment() {
+    private val TAG = "CreateProductFragment"
+
     private lateinit var createProductBinding: FragmentCreateProductBinding
     private lateinit var firebaseFirestore: FirebaseFirestore
+    private lateinit var progressDialog: ProgressDialog
+    private val storage = FirebaseStorage.getInstance()
+    private val storageReference = storage.reference
+    private var productCollectionReference: CollectionReference? = null
 
+    companion object {
+        const val IMAGE_REQUEST_CODE = 103
 
-    private var imagePath: String = ""
+    }
+
+    private var imagePath: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        firebaseFirestore = FirebaseFirestore.getInstance()
         createProductBinding = FragmentCreateProductBinding.inflate(inflater, container, false)
         return createProductBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.title = "Crate Product"
-
-
-        firebaseFirestore = FirebaseFirestore.getInstance()
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Crate Product"
 
         createProductBinding.btnSave.setOnClickListener {
+            showDialog()
             createProduct()
         }
         createProductBinding.fabChooseImage.setOnClickListener {
@@ -43,19 +65,18 @@ class CreateProductFragment : Fragment() {
         }
     }
 
-    private fun chooseImage() {}
+
 
 
     private fun createProduct() {
         val name = createProductBinding.edName.text.toString()
         val description = createProductBinding.edDescription.text.toString()
-        val image = imagePath
         val price = createProductBinding.edPrice.text.toString()
         val quantity = createProductBinding.edQuantity.text.toString()
 
         val catId = arguments?.getString("catId") ?: ""
 
-        val productCollectionReference = firebaseFirestore
+        productCollectionReference = firebaseFirestore
             .collection("categories")
             .document(catId)
             .collection("products")
@@ -71,35 +92,116 @@ class CreateProductFragment : Fragment() {
             description.isEmpty() -> {
                 Toast.makeText(requireContext(), "Description required", Toast.LENGTH_SHORT).show()
             }
+            quantity.isEmpty() -> {
+                Toast.makeText(requireContext(), "Quantity required", Toast.LENGTH_SHORT).show()
+            }
             else -> {
-                val productId = productCollectionReference.document().id
-                val data = HashMap<String, String>()
-                data["productId"] = productId
-                data["name"] = name
-                data["description"] = description
-                data["image"] = image
-                data["price"] = price
-                data["quantity"] = quantity
-                productCollectionReference.document(productId).set(data)
-                    .addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            Toast.makeText(context, "Created Successfully", Toast.LENGTH_LONG)
-                                .show()
-                            val bundle = Bundle()
-                            bundle.putString("catId",catId)
-                            requireActivity().supportFragmentManager.beginTransaction()
-                                .replace(R.id.fragment_container, ProductFragment::class.java,bundle).commit()
-                        } else {
-                            Toast.makeText(
-                                requireContext(),
-                                "Something error, Please try again later",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            requireActivity().onBackPressed()
-
-                        }
-                    }
+                showDialog()
+                uploadData()
             }
         }
+        hideDialog()
+    }
+
+    private fun uploadData() {
+        if (imagePath != null) {
+            val imageName = "${UUID.randomUUID()}.jpeg"
+            val ref = storageReference.child("images/$imageName")
+
+            ref.putFile(imagePath!!)
+                .addOnSuccessListener {
+                    Log.d("this", "Uploaded Successfully")
+                    ref.downloadUrl.addOnSuccessListener {
+
+                        Log.d(TAG, "uploadImage: $it")
+                        storeProductInDB(it.toString())
+                    }
+                }
+                .addOnFailureListener {
+                    Log.d("this", "Uploaded Failed")
+
+                }
+
+
+        }
+    }
+
+    private fun storeProductInDB(imageURI: String) {
+        val productId = productCollectionReference!!.document().id
+        val data = HashMap<String, String>()
+        val name = createProductBinding.edName.text.toString()
+        val description = createProductBinding.edDescription.text.toString()
+        val price = createProductBinding.edPrice.text.toString()
+        val quantity = createProductBinding.edQuantity.text.toString()
+
+        data["productId"] = productId
+        data["name"] = name
+        data["description"] = description
+        data["image"] = imageURI
+        data["price"] = price
+        data["quantity"] = quantity
+        productCollectionReference!!.document(productId).set(data)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Toast.makeText(context, "Created Successfully", Toast.LENGTH_LONG)
+                        .show()
+                    val bundle = Bundle()
+                    bundle.putString("catId", catId)
+                    hideDialog()
+                    requireActivity().supportFragmentManager.beginTransaction().addToBackStack("")
+                        .replace(
+                            R.id.fragment_container,
+                            ProductFragment::class.java,
+                            bundle
+                        ).commit()
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Something error, Please try again later",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    requireActivity().onBackPressed()
+
+                }
+            }
+    }
+
+    private fun chooseImage() {
+        val galleryPermission = ActivityCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
+        if (galleryPermission != PackageManager.PERMISSION_DENIED) {
+            val intent = Intent()
+            intent.action = Intent.ACTION_PICK
+            intent.type = "image/*"
+            startActivityForResult(intent, IMAGE_REQUEST_CODE)
+        } else {
+            ActivityCompat.requestPermissions(
+                requireContext() as Activity,
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                IMAGE_REQUEST_CODE
+            )
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            imagePath = data!!.data
+            createProductBinding.ivProductImage.setImageURI(imagePath)
+        }
+    }
+
+    private fun showDialog() {
+        progressDialog = ProgressDialog(requireContext())
+        progressDialog.setMessage("Creating ....")
+        progressDialog.setCancelable(false)
+        progressDialog.show()
+    }
+
+    private fun hideDialog() {
+        if (progressDialog.isShowing)
+            progressDialog.dismiss()
     }
 }

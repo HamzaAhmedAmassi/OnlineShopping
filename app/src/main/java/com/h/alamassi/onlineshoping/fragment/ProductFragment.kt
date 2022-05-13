@@ -21,26 +21,35 @@ class ProductFragment : Fragment() {
     private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var progressDialog: ProgressDialog
 
-companion object{
-    var catId = ""
-}
+    companion object {
+        var catId = ""
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        showDialog()
+        firebaseFirestore = FirebaseFirestore.getInstance()
         productBinding = FragmentProductBinding.inflate(inflater, container, false)
         return productBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.title = "Products"
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Products"
 
-        firebaseFirestore = FirebaseFirestore.getInstance()
+        catId = arguments?.getString("catId") ?: ""
 
-         catId = arguments?.getString("catId") ?: ""
+        readData()
+        productBinding.fabAddProduct.setOnClickListener {
+            addProductFragment()
+        }
+
+    }
 
 
+    private fun readData() {
         firebaseFirestore
             .collection("categories")
             .document(catId)
@@ -48,10 +57,10 @@ companion object{
             .get()
             .addOnCompleteListener { it ->
                 if (it.isSuccessful && !it.result.isEmpty) {
-                    showDialog()
                     val products = it.result.map {
                         it.toObject(Product::class.java)
                     }
+                    hideDialog()
                     val productAdapter = ProductAdapter(
                         requireActivity() as MainActivity,
                         products as ArrayList<Product>
@@ -59,27 +68,23 @@ companion object{
                     productBinding.rvBook.layoutManager =
                         LinearLayoutManager(requireActivity())
                     productBinding.rvBook.adapter = productAdapter
-                    hideDialog()
                     productBinding.root.setOnClickListener {
                         requireActivity().supportFragmentManager.beginTransaction()
+                            .addToBackStack("")
                             .replace(R.id.fragment_container, ProductDescriptionFragment()).commit()
-
-
                     }
                 }
-
-
-
-                productBinding.fabAddBook.setOnClickListener {
-                    val catId = arguments?.getString("catId") ?: ""
-                    val bundle = Bundle()
-                    bundle.putString("catId", catId)
-                    requireActivity().supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, CreateProductFragment::class.java, bundle)
-                        .commit()
-                }
             }
+        hideDialog()
+    }
 
+    private fun addProductFragment() {
+        val catId = arguments?.getString("catId") ?: ""
+        val bundle = Bundle()
+        bundle.putString("catId", catId)
+        requireActivity().supportFragmentManager.beginTransaction().addToBackStack("")
+            .replace(R.id.fragment_container, CreateProductFragment::class.java, bundle)
+            .commit()
     }
 
     private fun showDialog() {
