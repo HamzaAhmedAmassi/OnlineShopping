@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.h.alamassi.onlineshoping.databinding.ActivityMainBinding
 import com.h.alamassi.onlineshoping.fragment.CartItemFragment
 import com.h.alamassi.onlineshoping.fragment.CategoryFragment
 import com.h.alamassi.onlineshoping.fragment.ProfileShowFragment
+import com.h.alamassi.onlineshoping.fragment_user.CategoryUserFragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -26,18 +28,34 @@ class MainActivity : AppCompatActivity() {
 
         firebaseFirestore = FirebaseFirestore.getInstance()
         firebaseAuth = FirebaseAuth.getInstance()
+        if (firebaseAuth.currentUser!!.uid == "36HdizWdowNYJtTA995v2vJGngH2") {
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, CategoryFragment())
             .commit()
+        }else{
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, CategoryUserFragment())
+                .commit()
+        }
 
         mainBinding.bottomNavigation.setOnItemSelectedListener {
-            val fragment = when (it.itemId) {
-                R.id.nav_home -> CategoryFragment()
-                R.id.nav_profile -> ProfileShowFragment()
-                R.id.nav_catItem -> CartItemFragment()
-                else -> CategoryFragment()
-            }
+            val fragment: Fragment =
+                if (firebaseAuth.currentUser!!.uid == "36HdizWdowNYJtTA995v2vJGngH2") {
+                    when (it.itemId) {
+                        R.id.nav_home -> CategoryFragment()
+                        R.id.nav_profile -> ProfileShowFragment()
+                        R.id.nav_catItem -> CartItemFragment()
+                        else -> CategoryFragment()
+                    }
+                } else {
+                    when (it.itemId) {
+                        R.id.nav_home -> CategoryUserFragment()
+                        R.id.nav_profile -> ProfileShowFragment()
+                        R.id.nav_catItem -> CartItemFragment()
+                        else -> CategoryUserFragment()
+                    }
+                }
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .commit()

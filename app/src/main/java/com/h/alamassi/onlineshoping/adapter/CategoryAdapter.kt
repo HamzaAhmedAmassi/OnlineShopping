@@ -8,11 +8,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.h.alamassi.onlineshoping.R
 import com.h.alamassi.onlineshoping.databinding.ItemCategoryBinding
 import com.h.alamassi.onlineshoping.fragment.CategoryFragment
 import com.h.alamassi.onlineshoping.fragment.ProductFragment
+import com.h.alamassi.onlineshoping.fragment_user.ProductUserFragment
 import com.h.alamassi.onlineshoping.model.Category
 import com.squareup.picasso.Picasso
 
@@ -23,6 +25,7 @@ class CategoryAdapter(
 ) :
     RecyclerView.Adapter<CategoryAdapter.MyViewHolder>() {
     private lateinit var firebaseFirestore: FirebaseFirestore
+    private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var progressDialog: ProgressDialog
 
 
@@ -31,6 +34,7 @@ class CategoryAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         firebaseFirestore = FirebaseFirestore.getInstance()
+        firebaseAuth = FirebaseAuth.getInstance()
         val binding =
             ItemCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)
@@ -38,6 +42,7 @@ class CategoryAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentCategory = data[position]
+        if (firebaseAuth.currentUser!!.uid == "36HdizWdowNYJtTA995v2vJGngH2"){
         holder.binding.root.setOnLongClickListener {
             val alertDialog = AlertDialog.Builder(activity)
             alertDialog.setTitle("Delete Category")
@@ -82,6 +87,16 @@ class CategoryAdapter(
             bundle.putString("catId", currentCategory.catId)
             activity.supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, ProductFragment::class.java, bundle).commit()
+
+        }
+        }else{
+            holder.binding.root.setOnClickListener {
+                val bundle = Bundle()
+                bundle.putString("catId", currentCategory.catId)
+                activity.supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, ProductUserFragment::class.java, bundle).commit()
+
+            }
 
         }
 
