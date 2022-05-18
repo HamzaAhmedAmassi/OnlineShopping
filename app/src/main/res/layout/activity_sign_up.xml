@@ -35,17 +35,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
-    <TextView
-        android:id="@+id/textView15"
-        android:layout_width="130dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="53dp"
-        android:text="Add Your image :"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
-
     <EditText
         android:id="@+id/edEmail"
         android:layout_width="match_parent"
@@ -139,24 +128,25 @@
         app:layout_constraintVertical_bias="0.517"
         tools:ignore="SpeakableTextPresentCheck" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivUserPhoto"
-        android:layout_width="91dp"
-        android:layout_height="75dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginTop="35dp"
         android:layout_marginEnd="160dp"
+        android:background="@drawable/corner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView13"
-        app:srcCompat="@drawable/ic_baseline_person_24" />
+        android:src="@drawable/ic_baseline_person_24"/>
 
     <TextView
         android:id="@+id/tvLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:padding="8dp"
         android:text="You have already One? Sign up"
         android:textColor="#261BBF"
-        android:padding="8dp"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

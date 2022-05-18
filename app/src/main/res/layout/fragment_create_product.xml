@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".fragment.CreateProductFragment">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivProductImage"
-        android:layout_width="110dp"
-        android:layout_height="108dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginTop="16dp"
         android:src="@drawable/online_shopping_image"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,7 +61,7 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Product Price"
-        android:inputType="textPersonName"
+        android:inputType="number"
         app:layout_constraintStart_toStartOf="@+id/edName"
         app:layout_constraintTop_toBottomOf="@+id/edName"
         tools:ignore="SpeakableTextPresentCheck" />
@@ -134,7 +134,7 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Quantity"
-        android:inputType="textPersonName"
+        android:inputType="number"
         app:layout_constraintEnd_toEndOf="@+id/edDescription"
         app:layout_constraintStart_toStartOf="@+id/edDescription"
         app:layout_constraintTop_toBottomOf="@+id/edDescription" />

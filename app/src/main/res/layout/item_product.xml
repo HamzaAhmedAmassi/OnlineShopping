@@ -28,13 +28,15 @@
                 android:id="@+id/tvProductName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="8dp"
                 android:text="Name"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -47,18 +49,22 @@
                 android:text="Price"
                 android:textColor="#757575"
                 android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/tvProductName"
                 app:layout_constraintStart_toStartOf="@+id/tvProductName"
                 app:layout_constraintTop_toBottomOf="@+id/tvProductName"
                 tools:ignore="TextContrastCheck" />
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/ivImageBook"
-                android:layout_width="90dp"
-                android:layout_height="117dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@drawable/online_shopping_image" />
+                android:src="@drawable/online_shopping_image"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

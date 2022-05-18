@@ -7,10 +7,10 @@
     android:layout_margin="8dp"
     tools:context=".fragment.ProductDescriptionFragment">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivProductImage"
-        android:layout_width="110dp"
-        android:layout_height="108dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginTop="16dp"
         android:src="@drawable/online_shopping_image"
         app:layout_constraintEnd_toEndOf="parent"

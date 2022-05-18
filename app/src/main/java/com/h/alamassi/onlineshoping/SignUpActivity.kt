@@ -135,7 +135,9 @@ class SignUpActivity : AppCompatActivity() {
             startActivity(i)
             finish()
         } else {
+            hideDialog()
             Toast.makeText(this, "Created Account Failed", Toast.LENGTH_LONG).show()
+            onBackPressed()
         }
     }
 

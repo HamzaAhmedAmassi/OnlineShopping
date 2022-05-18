@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.h.alamassi.onlineshoping.R
 import com.h.alamassi.onlineshoping.databinding.ItemCategoryBinding
+import com.h.alamassi.onlineshoping.fragment.CategoryEditFragment
 import com.h.alamassi.onlineshoping.fragment.CategoryFragment
 import com.h.alamassi.onlineshoping.fragment.ProductFragment
 import com.h.alamassi.onlineshoping.fragment_user.ProductUserFragment
@@ -42,59 +44,69 @@ class CategoryAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentCategory = data[position]
-        if (firebaseAuth.currentUser!!.uid == "36HdizWdowNYJtTA995v2vJGngH2"){
-        holder.binding.root.setOnLongClickListener {
-            val alertDialog = AlertDialog.Builder(activity)
-            alertDialog.setTitle("Delete Category")
-            alertDialog.setMessage("Are you sure to delete category ?")
-            alertDialog.setIcon(R.drawable.delete)
-            alertDialog.setPositiveButton("Yes") { _, _ ->
-                showDialog()
-                firebaseFirestore
-                    .collection("categories")
-                    .document(currentCategory.catId)
-                    .delete()
-                    .addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            Toast.makeText(
-                                activity,
-                                "Deleted Successfully",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-                            activity.supportFragmentManager.beginTransaction()
-                                .replace(R.id.fragment_container, CategoryFragment()).commit()
+        if (firebaseAuth.currentUser!!.uid == "bH2ND7OZnvR0drNd0vHiGGxaez33") {
+            holder.binding.btnEdit.visibility = View.VISIBLE
+            holder.binding.root.setOnLongClickListener {
+                val alertDialog = AlertDialog.Builder(activity)
+                alertDialog.setTitle("Delete Category")
+                alertDialog.setMessage("Are you sure to delete category ?")
+                alertDialog.setIcon(R.drawable.delete)
+                alertDialog.setPositiveButton("Yes") { _, _ ->
+                    showDialog()
+                    firebaseFirestore
+                        .collection("categories")
+                        .document(currentCategory.catId)
+                        .delete()
+                        .addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                Toast.makeText(
+                                    activity,
+                                    "Deleted Successfully",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                                activity.supportFragmentManager.beginTransaction()
+                                    .replace(R.id.fragment_container, CategoryFragment()).commit()
 
-                        } else {
-                            Toast.makeText(activity, "Something Error ", Toast.LENGTH_LONG)
-                                .show()
-                            hideDialog()
+                            } else {
+                                Toast.makeText(activity, "Something Error ", Toast.LENGTH_LONG)
+                                    .show()
+                                hideDialog()
+                            }
+
+
                         }
 
+                }
+                alertDialog.setNegativeButton("No") { _, _ ->
+                }
+                alertDialog.create().show()
 
-                    }
+                true
 
             }
-            alertDialog.setNegativeButton("No") { _, _ ->
-            }
-            alertDialog.create().show()
-
-            true
-
-        }
-        holder.binding.root.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putString("catId", currentCategory.catId)
-            activity.supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, ProductFragment::class.java, bundle).commit()
-
-        }
-        }else{
             holder.binding.root.setOnClickListener {
                 val bundle = Bundle()
                 bundle.putString("catId", currentCategory.catId)
                 activity.supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, ProductUserFragment::class.java, bundle).commit()
+                    .replace(R.id.fragment_container, ProductFragment::class.java, bundle).commit()
+
+            }
+            holder.binding.btnEdit.setOnClickListener {
+                val bundle = Bundle()
+                bundle.putString("catId", currentCategory.catId)
+                activity.supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, CategoryEditFragment::class.java, bundle)
+                    .commit()
+
+            }
+        } else {
+            holder.binding.root.setOnClickListener {
+                val bundle = Bundle()
+                bundle.putString("catId", currentCategory.catId)
+                activity.supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, ProductUserFragment::class.java, bundle)
+                    .commit()
 
             }
 

@@ -40,7 +40,7 @@ class ProductAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val catId = ProductFragment.catId
         val currentProduct = data[position]
-        if (firebaseAuth.currentUser!!.uid == "36HdizWdowNYJtTA995v2vJGngH2") {
+        if (firebaseAuth.currentUser!!.uid == "bH2ND7OZnvR0drNd0vHiGGxaez33") {
             holder.binding.root.setOnLongClickListener {
                 val alertDialog = AlertDialog.Builder(activity)
                 alertDialog.setTitle("Delete Category")

@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         firebaseFirestore = FirebaseFirestore.getInstance()
         firebaseAuth = FirebaseAuth.getInstance()
-        if (firebaseAuth.currentUser!!.uid == "36HdizWdowNYJtTA995v2vJGngH2") {
+        if (firebaseAuth.currentUser!!.uid == "bH2ND7OZnvR0drNd0vHiGGxaez33") {
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, CategoryFragment())
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         mainBinding.bottomNavigation.setOnItemSelectedListener {
             val fragment: Fragment =
-                if (firebaseAuth.currentUser!!.uid == "36HdizWdowNYJtTA995v2vJGngH2") {
+                if (firebaseAuth.currentUser!!.uid == "bH2ND7OZnvR0drNd0vHiGGxaez33") {
                     when (it.itemId) {
                         R.id.nav_home -> CategoryFragment()
                         R.id.nav_profile -> ProfileShowFragment()

@@ -27,8 +27,8 @@ class CategoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         categoryBinding = FragmentCategoryBinding.inflate(inflater, container, false)
-        firebaseFirestore = FirebaseFirestore.getInstance()
         showDialog()
+        firebaseFirestore = FirebaseFirestore.getInstance()
         return categoryBinding.root
     }
 

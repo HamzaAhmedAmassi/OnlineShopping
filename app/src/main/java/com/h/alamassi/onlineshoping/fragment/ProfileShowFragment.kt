@@ -91,18 +91,18 @@ class ProfileShowFragment : Fragment() {
             val user = firebaseAuth.currentUser
             if (user != null) {
                 val uid = user.uid
-                firebaseFirestore.collection("user")
+                userCollectionReference
                     .get()
                     .addOnCompleteListener {
                         showDialog()
                         if (it.isSuccessful && !it.result.isEmpty) {
                             userCollectionReference.document(uid)
                                 .delete()
-                            user.delete()
-                            firebaseAuth.signOut()
-                            startActivity(Intent(activity, LoginActivity::class.java))
                             Toast.makeText(activity, "Deleted Successfully", Toast.LENGTH_SHORT)
                                 .show()
+                            startActivity(Intent(activity, LoginActivity::class.java))
+                            user.delete()
+                            firebaseAuth.signOut()
 
                         } else {
                             Toast.makeText(activity, "Deleted Failed", Toast.LENGTH_LONG)

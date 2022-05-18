@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndroidStudioProjects/OnlineShoping/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3635" />
+        <entry key="..\:/AndroidStudioProjects/OnlineShoping/app/src/main/res/drawable/corener.xml" value="0.3625" />
         <entry key="..\:/AndroidStudioProjects/OnlineShoping/app/src/main/res/drawable/delete.xml" value="0.3635" />
         <entry key="..\:/AndroidStudioProjects/OnlineShoping/app/src/main/res/drawable/edit.xml" value="0.3635" />
         <entry key="..\:/AndroidStudioProjects/OnlineShoping/app/src/main/res/drawable/email.xml" value="0.3635" />
@@ -27,6 +28,7 @@
         <entry key="..\:/AndroidStudioProjects/OnlineShoping/app/src/main/res/layout/activity_splash.xml" value="0.3625" />
         <entry key="..\:/AndroidStudioProjects/OnlineShoping/app/src/main/res/layout/fragment_cart_item.xml" value="0.3625" />
         <entry key="..\:/AndroidStudioProjects/OnlineShoping/app/src/main/res/layout/fragment_category.xml" value="0.3625" />
+        <entry key="..\:/AndroidStudioProjects/OnlineShoping/app/src/main/res/layout/fragment_category_edit.xml" value="0.3625" />
         <entry key="..\:/AndroidStudioProjects/OnlineShoping/app/src/main/res/layout/fragment_create_categories.xml" value="0.3625" />
         <entry key="..\:/AndroidStudioProjects/OnlineShoping/app/src/main/res/layout/fragment_create_category.xml" value="0.3625" />
         <entry key="..\:/AndroidStudioProjects/OnlineShoping/app/src/main/res/layout/fragment_create_product.xml" value="0.3625" />
@@ -35,12 +37,12 @@
         <entry key="..\:/AndroidStudioProjects/OnlineShoping/app/src/main/res/layout/fragment_product_description.xml" value="0.264" />
         <entry key="..\:/AndroidStudioProjects/OnlineShoping/app/src/main/res/layout/fragment_product_edit.xml" value="0.3625" />
         <entry key="..\:/AndroidStudioProjects/OnlineShoping/app/src/main/res/layout/fragment_products.xml" value="0.3625" />
-        <entry key="..\:/AndroidStudioProjects/OnlineShoping/app/src/main/res/layout/fragment_profile_edit.xml" value="0.2" />
+        <entry key="..\:/AndroidStudioProjects/OnlineShoping/app/src/main/res/layout/fragment_profile_edit.xml" value="0.536" />
         <entry key="..\:/AndroidStudioProjects/OnlineShoping/app/src/main/res/layout/fragment_profile_show.xml" value="0.3625" />
         <entry key="..\:/AndroidStudioProjects/OnlineShoping/app/src/main/res/layout/fragment_profile_shpw.xml" value="0.3484375" />
         <entry key="..\:/AndroidStudioProjects/OnlineShoping/app/src/main/res/layout/fragment_stores.xml" value="0.3625" />
         <entry key="..\:/AndroidStudioProjects/OnlineShoping/app/src/main/res/layout/fragment_test.xml" value="0.3625" />
-        <entry key="..\:/AndroidStudioProjects/OnlineShoping/app/src/main/res/layout/item_category.xml" value="0.536" />
+        <entry key="..\:/AndroidStudioProjects/OnlineShoping/app/src/main/res/layout/item_category.xml" value="0.47802197802197804" />
         <entry key="..\:/AndroidStudioProjects/OnlineShoping/app/src/main/res/layout/item_product.xml" value="0.3625" />
         <entry key="..\:/AndroidStudioProjects/OnlineShoping/app/src/main/res/layout/item_store.xml" value="0.3625" />
         <entry key="..\:/AndroidStudioProjects/OnlineShoping/app/src/main/res/menu/bottom_nav.xml" value="0.3625" />

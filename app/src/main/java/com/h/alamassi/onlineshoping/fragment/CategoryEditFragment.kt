@@ -1,6 +1,5 @@
 package com.h.alamassi.onlineshoping.fragment
 
-
 import android.Manifest
 import android.app.Activity
 import android.app.ProgressDialog
@@ -18,63 +17,78 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import com.h.alamassi.onlineshoping.R
-import com.h.alamassi.onlineshoping.databinding.FragmentCreateCategoriesBinding
+import com.h.alamassi.onlineshoping.databinding.FragmentCategoryEditBinding
+import com.squareup.picasso.Picasso
 import java.util.*
 
-
-class CreateCategoriesFragment : Fragment() {
-
-    private lateinit var createCategoryBinding: FragmentCreateCategoriesBinding
+class CategoryEditFragment : Fragment() {
+    private lateinit var categoryEditBinding: FragmentCategoryEditBinding
     private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var progressDialog: ProgressDialog
+    private lateinit var categoryCollectionReference: CollectionReference
     private val storage = FirebaseStorage.getInstance()
     private val storageReference = storage.reference
-    private var categoriesCollectionReference: CollectionReference? = null
-    private var categoryName = ""
+    lateinit var catId: String
     private var imagePath: Uri? = null
 
     companion object {
-        const val IMAGE_REQUEST_CODE = 102
-        var catId: String? = ""
+        const val IMAGE_REQUEST_CODE = 101
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        showDialog()
         firebaseFirestore = FirebaseFirestore.getInstance()
-        createCategoryBinding = FragmentCreateCategoriesBinding.inflate(inflater, null, false)
-        return createCategoryBinding.root
+        categoryEditBinding =
+            FragmentCategoryEditBinding.inflate(inflater, container, false)
+        return categoryEditBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Crate Category"
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Edit Category"
 
+        readData()
+        categoryEditBinding.fabChooseImage.setOnClickListener {
 
-        createCategoryBinding.btnSave.setOnClickListener {
-            showDialog()
-            createCategory()
-        }
-        createCategoryBinding.fabChooseImage.setOnClickListener {
             chooseImage()
+        }
+
+        categoryEditBinding.btnSave.setOnClickListener {
+            showDialog()
+            update()
         }
     }
 
-    private fun createCategory() {
-        categoryName = createCategoryBinding.etCategoryName.text.toString()
-        categoriesCollectionReference = firebaseFirestore.collection("categories")
-        if (categoryName.isEmpty()) {
-            Toast.makeText(requireContext(), "Name required", Toast.LENGTH_SHORT).show()
-        } else {
-            uploadImage()
-        }
+
+    private fun readData() {
+        catId = arguments?.getString("catId") ?: ""
+        categoryCollectionReference = firebaseFirestore
+            .collection("categories")
+
+        categoryCollectionReference
+            .whereEqualTo("catId", catId)
+            .get()
+            .addOnCompleteListener {
+                if (it.isSuccessful && !it.result.isEmpty) {
+                    for (q in it.result) {
+                        categoryEditBinding.etCategoryName.setText(q.data["name"].toString())
+                        Picasso.get().load(q.data["image"].toString())
+                            .into(categoryEditBinding.ivCategoryImage)
+                    }
+                }
+            }
         hideDialog()
     }
 
-    private fun uploadImage() {
+    private fun update() {
+        uploadData()
+
+    }
+
+    private fun uploadData() {
         if (imagePath != null) {
             val imageName = "${UUID.randomUUID()}.jpeg"
             val ref = storageReference.child("images/$imageName")
@@ -89,26 +103,23 @@ class CreateCategoriesFragment : Fragment() {
     }
 
     private fun storeCategoryInDB(imageURI: String) {
-        catId = categoriesCollectionReference!!.document().id
-        val data = HashMap<String, String>()
-        data["name"] = categoryName
+        val newName = categoryEditBinding.etCategoryName.text.toString()
+        val data = HashMap<String, Any>()
         data["image"] = imageURI
-        data["catId"] = catId!!
-        categoriesCollectionReference!!.document(catId!!).set(data)
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    Toast.makeText(context, "Created Successfully", Toast.LENGTH_LONG)
-                        .show()
-                    requireActivity().supportFragmentManager.beginTransaction().addToBackStack("")
-                        .replace(R.id.fragment_container, CategoryFragment()).commit()
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "Something error, Please try again later",
-                        Toast.LENGTH_SHORT
-                    ).show()
+        data["name"] = newName
+        categoryCollectionReference
+            .document(catId)
+            .update(data)
+            .addOnSuccessListener {
+                Toast.makeText(activity, "Updated Successfully", Toast.LENGTH_SHORT).show()
+                hideDialog()
+                requireActivity().onBackPressed()
+            }
+            .addOnFailureListener {
+                Toast.makeText(activity, "Updated Failed", Toast.LENGTH_SHORT).show()
+                hideDialog()
+                requireActivity().onBackPressed()
 
-                }
             }
     }
 
@@ -135,13 +146,13 @@ class CreateCategoriesFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             imagePath = data!!.data
-            createCategoryBinding.ivCategoryImage.setImageURI(imagePath)
+            categoryEditBinding.ivCategoryImage.setImageURI(imagePath)
         }
     }
 
     private fun showDialog() {
-        progressDialog = ProgressDialog(requireContext())
-        progressDialog.setMessage("Creating ....")
+        progressDialog = ProgressDialog(context)
+        progressDialog.setMessage("Uploading ....")
         progressDialog.setCancelable(false)
         progressDialog.show()
     }

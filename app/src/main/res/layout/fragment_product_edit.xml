@@ -7,7 +7,7 @@
     android:layout_margin="8dp"
     tools:context=".fragment.ProductEditFragment">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivProductImage"
         android:layout_width="110dp"
         android:layout_height="108dp"
