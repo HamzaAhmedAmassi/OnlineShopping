@@ -91,11 +91,9 @@ class CreateProductFragment : Fragment() {
                 Toast.makeText(requireContext(), "Quantity required", Toast.LENGTH_SHORT).show()
             }
             else -> {
-                showDialog()
                 uploadData()
             }
         }
-        hideDialog()
     }
 
     private fun uploadData() {
@@ -133,7 +131,6 @@ class CreateProductFragment : Fragment() {
                         .show()
                     val bundle = Bundle()
                     bundle.putString("catId", catId)
-                    hideDialog()
                     requireActivity().supportFragmentManager.beginTransaction().addToBackStack("")
                         .replace(
                             R.id.fragment_container,
@@ -149,6 +146,7 @@ class CreateProductFragment : Fragment() {
                     requireActivity().onBackPressed()
 
                 }
+                hideDialog()
             }
     }
 

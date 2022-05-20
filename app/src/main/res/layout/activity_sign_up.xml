@@ -1,157 +1,325 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:background="#fff"-->
+<!--    android:orientation="vertical"-->
+<!--    android:padding="16dp"-->
+<!--    tools:context=".SignUpActivity">-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/textView14"-->
+<!--        android:layout_width="126dp"-->
+<!--        android:layout_height="52dp"-->
+<!--        android:layout_marginTop="3dp"-->
+<!--        android:fontFamily="@font/mr_dafoe"-->
+<!--        android:text="Register"-->
+<!--        android:textColor="#009688"-->
+<!--        android:textSize="34sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.056"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/textView13"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:text="Come join us And organize our shop"-->
+<!--        android:textSize="16sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.054"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/textView14" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/edEmail"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="55dp"-->
+<!--        android:background="@drawable/shape"-->
+<!--        android:backgroundTint="#EFE9E9"-->
+<!--        android:drawableStart="@drawable/email"-->
+<!--        android:drawablePadding="8dp"-->
+<!--        android:hint="@string/email"-->
+<!--        android:importantForAutofill="no"-->
+<!--        android:inputType="textPersonName"-->
+<!--        android:paddingHorizontal="8dp"-->
+<!--        android:paddingVertical="16dp"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textColorHint="#757575"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/edPassword"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/edPassword"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/ivUserPhoto"-->
+<!--        tools:ignore="TextContrastCheck" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/edUsername"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:background="@drawable/shape"-->
+<!--        android:backgroundTint="#EFE9E9"-->
+<!--        android:drawableStart="@drawable/username"-->
+<!--        android:drawablePadding="8dp"-->
+<!--        android:hint="@string/username"-->
+<!--        android:importantForAutofill="no"-->
+<!--        android:inputType="textEmailAddress"-->
+<!--        android:paddingHorizontal="8dp"-->
+<!--        android:paddingVertical="16dp"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textColorHint="#757575"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/edPassword"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/edPassword"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/edEmail"-->
+<!--        tools:ignore="TextContrastCheck" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/edPassword"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:background="@drawable/shape"-->
+<!--        android:backgroundTint="#EFE9E9"-->
+<!--        android:drawableStart="@drawable/password"-->
+<!--        android:drawablePadding="8dp"-->
+<!--        android:hint="@string/password"-->
+<!--        android:importantForAutofill="no"-->
+<!--        android:inputType="textPassword"-->
+<!--        android:paddingHorizontal="8dp"-->
+<!--        android:paddingVertical="16dp"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textColorHint="#757575"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/edUsername"-->
+<!--        tools:ignore="TextContrastCheck"-->
+<!--        tools:layout_editor_absoluteX="16dp" />-->
+
+<!--    <android.widget.Button-->
+<!--        android:id="@+id/btnSignUp"-->
+<!--        android:layout_width="375dp"-->
+<!--        android:layout_height="47dp"-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        android:background="@drawable/shape"-->
+<!--        android:backgroundTint="@color/teal_700"-->
+<!--        android:text="Sign Up"-->
+<!--        android:textColor="@color/white"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/tvLogin"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/edPassword"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/edPassword"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/edPassword"-->
+<!--        tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />-->
+
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/fabChooseImage"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:clickable="true"-->
+<!--        android:src="@drawable/ic_baseline_image_24"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/ivUserPhoto"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/ivUserPhoto"-->
+<!--        app:layout_constraintHorizontal_bias="1.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/ivUserPhoto"-->
+<!--        app:layout_constraintVertical_bias="0.517"-->
+<!--        tools:ignore="SpeakableTextPresentCheck" />-->
+
+<!--    <de.hdodenhof.circleimageview.CircleImageView-->
+<!--        android:id="@+id/ivUserPhoto"-->
+<!--        android:layout_width="100dp"-->
+<!--        android:layout_height="100dp"-->
+<!--        android:layout_marginTop="35dp"-->
+<!--        android:layout_marginEnd="160dp"-->
+<!--        android:background="@drawable/corner"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/textView13"-->
+<!--        android:src="@drawable/ic_baseline_person_24"/>-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvLogin"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        android:padding="8dp"-->
+<!--        android:text="You have already One? Sign up"-->
+<!--        android:textColor="#261BBF"-->
+<!--        android:textSize="15sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.497"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
+
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
-    android:orientation="vertical"
-    android:padding="16dp"
     tools:context=".SignUpActivity">
 
-    <TextView
-        android:id="@+id/textView14"
-        android:layout_width="126dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="3dp"
-        android:fontFamily="@font/mr_dafoe"
-        android:text="Register"
-        android:textColor="#009688"
-        android:textSize="34sp"
+    <View
+        android:id="@+id/topView"
+        android:layout_width="416dp"
+        android:layout_height="129dp"
+        android:layout_marginBottom="100dp"
+        android:background="#1AC3A9"
+        app:layout_constraintBottom_toTopOf="@+id/fabChooseImage"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.056"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Come join us And organize our shop"
-        android:textSize="16sp"
+    <View
+        android:id="@+id/view5"
+        android:layout_width="416dp"
+        android:layout_height="103dp"
+        android:layout_marginBottom="420dp"
+        android:background="@drawable/wave"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.054"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView14" />
-
-    <EditText
-        android:id="@+id/edEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"
-        android:background="@drawable/shape"
-        android:backgroundTint="#EFE9E9"
-        android:drawableStart="@drawable/email"
-        android:drawablePadding="8dp"
-        android:hint="@string/email"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        android:paddingHorizontal="8dp"
-        android:paddingVertical="16dp"
-        android:textColor="@color/black"
-        android:textColorHint="#757575"
-        app:layout_constraintEnd_toEndOf="@+id/edPassword"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/edPassword"
-        app:layout_constraintTop_toBottomOf="@+id/ivUserPhoto"
-        tools:ignore="TextContrastCheck" />
-
-    <EditText
-        android:id="@+id/edUsername"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/shape"
-        android:backgroundTint="#EFE9E9"
-        android:drawableStart="@drawable/username"
-        android:drawablePadding="8dp"
-        android:hint="@string/username"
-        android:importantForAutofill="no"
-        android:inputType="textEmailAddress"
-        android:paddingHorizontal="8dp"
-        android:paddingVertical="16dp"
-        android:textColor="@color/black"
-        android:textColorHint="#757575"
-        app:layout_constraintEnd_toEndOf="@+id/edPassword"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/edPassword"
-        app:layout_constraintTop_toBottomOf="@+id/edEmail"
-        tools:ignore="TextContrastCheck" />
-
-    <EditText
-        android:id="@+id/edPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/shape"
-        android:backgroundTint="#EFE9E9"
-        android:drawableStart="@drawable/password"
-        android:drawablePadding="8dp"
-        android:hint="@string/password"
-        android:importantForAutofill="no"
-        android:inputType="textPassword"
-        android:paddingHorizontal="8dp"
-        android:paddingVertical="16dp"
-        android:textColor="@color/black"
-        android:textColorHint="#757575"
-        app:layout_constraintTop_toBottomOf="@+id/edUsername"
-        tools:ignore="TextContrastCheck"
-        tools:layout_editor_absoluteX="16dp" />
-
-    <android.widget.Button
-        android:id="@+id/btnSignUp"
-        android:layout_width="375dp"
-        android:layout_height="47dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/shape"
-        android:backgroundTint="@color/teal_700"
-        android:text="Sign Up"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/tvLogin"
-        app:layout_constraintEnd_toEndOf="@+id/edPassword"
-        app:layout_constraintStart_toStartOf="@+id/edPassword"
-        app:layout_constraintTop_toBottomOf="@+id/edPassword"
-        tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabChooseImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:src="@drawable/ic_baseline_image_24"
-        app:layout_constraintBottom_toBottomOf="@+id/ivUserPhoto"
-        app:layout_constraintEnd_toEndOf="@+id/ivUserPhoto"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivUserPhoto"
-        app:layout_constraintVertical_bias="0.517"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:layout_constraintTop_toBottomOf="@+id/topView"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="17dp"
+        android:contentDescription="TOP ICON"
+        app:layout_constraintBottom_toTopOf="@+id/view5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/topText"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_person_24" />
+
+    <TextView
+        android:id="@+id/topText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="64dp"
+        android:text="Register"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/imageView5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/topView" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivUserPhoto"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="160dp"
-        android:background="@drawable/corner"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView13"
-        android:src="@drawable/ic_baseline_person_24"/>
+        android:layout_marginStart="159dp"
+        android:layout_marginEnd="155dp"
+        android:layout_marginBottom="52dp"
+        android:src="@drawable/person"
+        app:layout_constraintBottom_toTopOf="@+id/edEmail"
+        app:layout_constraintEnd_toEndOf="@+id/edEmail"
+        app:layout_constraintHorizontal_bias="0.636"
+        app:layout_constraintStart_toStartOf="@+id/view5" />
 
-    <TextView
-        android:id="@+id/tvLogin"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabChooseImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:padding="8dp"
-        android:text="You have already One? Sign up"
-        android:textColor="#261BBF"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="44dp"
+        android:clickable="true"
+        android:src="@drawable/ic_baseline_image_24"
+        app:layout_constraintBottom_toTopOf="@+id/edEmail"
+        app:layout_constraintStart_toStartOf="@+id/ivUserPhoto"
+        app:layout_constraintTop_toBottomOf="@+id/topView"
+        tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
 
+    <EditText
+        android:id="@+id/edEmail"
+        android:layout_width="351dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="182dp"
+        android:background="@drawable/round_border"
+        android:drawableStart="@drawable/email"
+        android:drawablePadding="16dp"
+        android:ems="10"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnSignUp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fabChooseImage" />
+
+    <EditText
+        android:id="@+id/edUsername"
+        android:layout_width="347dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/round_border"
+        android:drawableStart="@drawable/username"
+        android:drawablePadding="16dp"
+        android:ems="10"
+        android:hint="@string/username"
+        android:inputType="textPersonName"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edEmail" />
+
+    <EditText
+        android:id="@+id/edPassword"
+        android:layout_width="347dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/round_border"
+        android:drawableStart="@drawable/password"
+        android:drawablePadding="16dp"
+        android:ems="10"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edUsername" />
+
+    <Button
+        android:id="@+id/btnSignUp"
+        android:layout_width="351dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="36dp"
+        android:background="@drawable/butn"
+        android:text="Sign Up"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintCircleRadius="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edPassword"
+        app:layout_constraintVertical_bias="0.525" />
+        <TextView
+            android:id="@+id/tvLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:padding="8dp"
+            android:text="You have already One? Sign up"
+            android:textColor="#1AC3A9"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

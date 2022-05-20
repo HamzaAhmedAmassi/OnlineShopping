@@ -52,6 +52,7 @@ class CategoryFragment : Fragment() {
                     val cats = it.result.map {
                         it.toObject(Category::class.java)
                     }
+                    hideDialog()
                     val categoryAdapter = CategoryAdapter(
                         requireActivity() as MainActivity,
                         cats as ArrayList<Category>

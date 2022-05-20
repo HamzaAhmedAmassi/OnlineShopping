@@ -90,7 +90,6 @@ class ProductEditFragment : Fragment() {
                     }
                 }
             }
-        hideDialog()
     }
 
     private fun update() {
@@ -129,15 +128,14 @@ class ProductEditFragment : Fragment() {
             .update(data)
             .addOnSuccessListener {
                 Toast.makeText(activity, "Updated Successfully", Toast.LENGTH_SHORT).show()
-                hideDialog()
                 requireActivity().onBackPressed()
             }
             .addOnFailureListener {
                 Toast.makeText(activity, "Updated Failed", Toast.LENGTH_SHORT).show()
-                hideDialog()
                 requireActivity().onBackPressed()
 
             }
+        hideDialog()
     }
 
     private fun chooseImage() {

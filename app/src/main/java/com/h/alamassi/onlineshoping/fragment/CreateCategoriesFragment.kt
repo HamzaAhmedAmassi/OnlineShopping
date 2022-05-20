@@ -71,7 +71,6 @@ class CreateCategoriesFragment : Fragment() {
         } else {
             uploadImage()
         }
-        hideDialog()
     }
 
     private fun uploadImage() {
@@ -109,6 +108,7 @@ class CreateCategoriesFragment : Fragment() {
                     ).show()
 
                 }
+                hideDialog()
             }
     }
 

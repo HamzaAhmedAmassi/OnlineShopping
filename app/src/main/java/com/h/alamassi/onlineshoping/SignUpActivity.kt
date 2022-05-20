@@ -33,8 +33,8 @@ class SignUpActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.supportActionBar?.title = "SignUp"
-
+        this.supportActionBar!!.hide()
+        
         signUpBinding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(signUpBinding.root)
         firebaseFirestore = FirebaseFirestore.getInstance()

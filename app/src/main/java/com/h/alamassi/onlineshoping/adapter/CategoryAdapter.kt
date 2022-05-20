@@ -95,7 +95,7 @@ class CategoryAdapter(
             holder.binding.btnEdit.setOnClickListener {
                 val bundle = Bundle()
                 bundle.putString("catId", currentCategory.catId)
-                activity.supportFragmentManager.beginTransaction()
+                activity.supportFragmentManager.beginTransaction().addToBackStack("")
                     .replace(R.id.fragment_container, CategoryEditFragment::class.java, bundle)
                     .commit()
 

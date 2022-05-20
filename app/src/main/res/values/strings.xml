@@ -5,7 +5,8 @@
     <string name="no_account">You Have No Account ?</string>
     <string name="create_one">Create One Now</string>
     <string name="password">Password</string>
-    <string name="adminID">bH2ND7OZnvR0drNd0vHiGGxaez33</string>
+    <string name="new_user_register_now">New User? Register Now</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="username">Username</string>
