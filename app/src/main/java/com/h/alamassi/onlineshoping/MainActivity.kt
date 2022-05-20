@@ -30,10 +30,10 @@ class MainActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
         if (firebaseAuth.currentUser!!.uid == "bH2ND7OZnvR0drNd0vHiGGxaez33") {
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, CategoryFragment())
-            .commit()
-        }else{
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, CategoryFragment())
+                .commit()
+        } else {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, CategoryUserFragment())
                 .commit()
@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             supportFragmentManager.beginTransaction()
+                .addToBackStack("")
                 .replace(R.id.fragment_container, fragment)
                 .commit()
             false
